@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use((config) => {
   const cartToken = localStorage.getItem("cartToken");
   const accessToken = localStorage.getItem("access_token");
-  console.log("is toke", accessToken);
+
   if (cartToken) {
     config.headers["x-cart-token"] = cartToken;
   }
