@@ -86,7 +86,7 @@ const CetgorySideBar = () => {
         style={{ scrollbarWidth: "none" }}
         className="flex-1  overflow-y-auto space-y-2"
       >
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <CategoryItem
             key={category._id}
             category={category}
