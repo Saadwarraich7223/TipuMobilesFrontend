@@ -13,7 +13,7 @@ const MainBanner = () => {
     "https://api.spicezgold.com/download/file_1734525002307_1723967638078_slideBanner1.6bbeed1a0c8ffb494f7c.jpg",
   ];
   return (
-    <div className="homeslider py-2 select-none">
+    <div className="homeslider overflow-hidden py-2 select-none">
       <div className="container">
         <Swiper
           spaceBetween={15}
