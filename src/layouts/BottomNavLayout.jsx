@@ -4,7 +4,7 @@ import MobileBottomNav from "../components/layout/MobileBottomNav/MobileBottomNa
 
 const BottomNavLayout = () => {
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <Outlet />
       <MobileBottomNav />
     </div>
