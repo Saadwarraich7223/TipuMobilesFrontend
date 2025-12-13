@@ -27,15 +27,14 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) fetchProfile();
-    else setLoadingUser(false);
+    // Instead of using `localStorage`, you should rely on the cookies for authentication
+    fetchProfile(); // The profile will automatically be fetched if the cookies are set correctly
   }, []);
 
   const register = async (userData) => {
     try {
       const data = await authApi.register(userData);
-      localStorage.setItem("access_token", data.accessToken);
+      // No need to store accessToken manually as it's saved in cookies
       await fetchProfile();
       navigate("/");
     } catch (err) {
@@ -49,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (userData) => {
     const data = await authApi.login(userData);
-    localStorage.setItem("access_token", data.accessToken);
+    // No need to store accessToken manually as it's saved in cookies
     await fetchProfile();
     navigate("/");
   };
@@ -77,21 +76,10 @@ export const AuthContextProvider = ({ children }) => {
       throw error;
     }
   };
-  const updatePassword = async (passwords) => {
-    try {
-      const data = await authApi.ChangePassword(passwords);
-      await fetchProfile();
-      return data;
-    } catch (error) {
-      console.log(error.message);
-      throw error;
-    }
-  };
 
   const logout = async () => {
     await authApi.logout().catch(() => {});
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("cartToken");
+    localStorage.removeItem("access_token"); // Optional, in case you store a fallback token in localStorage
     setUser(null);
     setIsLoggedIn(false);
     navigate("/");
@@ -131,10 +119,8 @@ export const AuthContextProvider = ({ children }) => {
     updateAvatar,
     logout,
     fetchProfile,
-    updatePassword,
-    navigate,
-    wishList,
     addOrRemoveFromWishList,
+    wishList,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
