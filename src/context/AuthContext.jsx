@@ -27,9 +27,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    if (token) fetchProfile();
-    else setLoadingUser(false);
+    fetchProfile();
   }, []);
 
   const register = async (userData) => {
