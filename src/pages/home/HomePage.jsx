@@ -49,7 +49,7 @@ const HomePage = () => {
 
   return (
     <>
-      <MainBanner />
+      {/* <MainBanner /> */}
 
       {activeFlashSales.length === 0 ? (
         <></> // hide section completely if no active sales
