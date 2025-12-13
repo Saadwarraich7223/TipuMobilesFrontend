@@ -7,8 +7,16 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use((config) => {
   const cartToken = localStorage.getItem("cartToken");
+  const accessToken = localStorage.getItem("access_token");
+  console.log("is toke", accessToken);
   if (cartToken) {
     config.headers["x-cart-token"] = cartToken;
+  }
+  if (accessToken) {
+    config.headers["authorization"] = accessToken;
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
   }
   return config;
 });
