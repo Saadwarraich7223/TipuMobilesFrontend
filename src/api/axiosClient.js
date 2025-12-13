@@ -2,25 +2,23 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  withCredentials: true, // This ensures that cookies (accessToken, refreshToken) are sent with every request
+  withCredentials: true,
 });
 
-// Set Authorization token for requests if available in cookies (automatic via withCredentials)
 axiosClient.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem("access_token"); // Use localStorage for initial login; or cookies
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`; // Send JWT in header if not in cookies
+  const cartToken = localStorage.getItem("cartToken");
+  if (cartToken) {
+    config.headers["x-cart-token"] = cartToken;
   }
   return config;
 });
 
-// Response interceptor to handle errors
 axiosClient.interceptors.response.use(
-  (response) => response.data, // Automatically return the data
+  (response) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized error, like clearing cookies or navigating to login
-      localStorage.removeItem("access_token");
+    if (error.response.status === 401) {
+      console.warn("Unauthorized");
+      localStorage.removeItem("token");
     }
     return Promise.reject(error);
   }
