@@ -35,7 +35,7 @@ export default function MobileBottomNav() {
       {/* Bottom nav */}
       <div
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-        className="w-full sm:hidden select-none   fixed bottom-0 right-0 left-0 z-20 flex items-end justify-center"
+        className="w-full sm:hidden select-none   fixed bottom-0 right-0 left-0 pb-safe z-20 flex items-end justify-center"
       >
         <nav className="w-full bg-white rounded-t-xl backdrop-blur-xl border-t border-gray-200 shadow-xl">
           <ul className="relative flex justify-around items-center py-3">
