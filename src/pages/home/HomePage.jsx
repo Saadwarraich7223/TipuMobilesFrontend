@@ -14,6 +14,7 @@ import FlashSale from "../../components/common/FlashSaleCard/FlashSale";
 import flashSalesApi from "../../api/flashSales";
 import FeaturedBrands from "../../components/common/FeaturedBrands/FeaturedBrands";
 import CustomerReviews from "../../components/common/CustomerReviews/CustomerReviews";
+import TopRatedProducts from "../../components/common/TopRatedProducts/TopRatedProducts";
 
 const HomePage = () => {
   const [flashSales, setFlashSales] = useState([]);
@@ -61,8 +62,8 @@ const HomePage = () => {
 
       <CategorySlider />
       <PopularProducts />
+      <TopRatedProducts />
       <FeaturedBrands />
-      <TopSellingProducts />
 
       <Adds1 />
       <CustomerReviews />
@@ -109,11 +110,8 @@ const PopularProducts = () => {
           {/* Left */}
           <div className=" w-full lg:w-[40%] ">
             <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
-              Popular Products
+              Shop by Categories
             </h2>
-            <p className="text-xs sm:text-sm text-gray-500">
-              Don’t miss our current offers — limited time only!
-            </p>
           </div>
 
           {/* Right - Custom Tabs */}
@@ -179,30 +177,6 @@ const PopularProducts = () => {
             activeCategory={activeTab}
           />
         )}
-      </div>
-    </section>
-  );
-};
-
-const TopSellingProducts = () => {
-  return (
-    <section className="bg-white py-4 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* Header Section */}
-        <div className="flex flex-col lg:flex-row items-start md:items-center md:justify-between gap-4 mb-2">
-          {/* Left */}
-          <div className=" w-full lg:w-[40%] ">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
-              Top Selling Products
-            </h2>
-            <p className=" text-xs md:text-sm text-gray-500">
-              Don’t miss our current offers — limited time only!
-            </p>
-          </div>
-        </div>
-
-        {/* Product Slider */}
-        <ProductsList items={5} />
       </div>
     </section>
   );

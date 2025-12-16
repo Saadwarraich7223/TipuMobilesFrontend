@@ -5,32 +5,64 @@ const CategorySlider = () => {
   const { categories } = useAppContext();
 
   return (
-    <section className="px-4 md:px-10 md:py-4 py-2 select-none">
+    <section className="px-4 md:px-10 py-2 select-none">
       <div className="max-w-7xl mx-auto">
-        {/* Scrollable Categories Row */}
         <div
-          className="flex lg:items-center lg:justify-center gap-3 md:gap-5 overflow-x-auto scrollbar-hide pb-2"
+          className="flex pt-2 gap-4 md:gap-6 overflow-x-auto scrollbar-hide pb-3"
           style={{ scrollSnapType: "x mandatory" }}
         >
           {categories?.map((item, index) => (
             <Link
               to={`/products/${item.slug}`}
               key={index}
-              className="scroll-snap-align-start flex-shrink-0"
+              className="flex-shrink-0 scroll-snap-align-start"
             >
               <div
-                className="group bg-white border border-gray-200 rounded-lg 
-                shadow-sm hover:shadow-md transition-all duration-300 
-                flex flex-col items-center justify-center
-                p-3 md:p-4 w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px]
-                hover:-translate-y-[2px]"
+                className="
+                  group
+                  bg-white
+                  border border-gray-200
+                  rounded-xl
+                  p-4
+                  w-[96px] h-[110px]
+                  sm:w-[110px] sm:h-[125px]
+                  md:w-[130px] md:h-[145px]
+                  flex flex-col items-center justify-between
+                  transition-all duration-300 ease-out
+
+                  hover:border-primary/30
+                  hover:shadow-lg
+                  hover:-translate-y-1
+                "
               >
-                <img
-                  src={item.image.url}
-                  alt={item.name}
-                  className="w-12 h-12 rounded-full md:w-10 md:h-10 object-contain mb-2 transition-transform duration-300 group-hover:scale-105"
-                />
-                <h3 className="text-[11px] sm:text-[12px] md:text-sm text-gray-700 font-medium text-center group-hover:text-primary transition">
+                <div
+                  className="
+                    w-12 h-12 md:w-14 md:h-14
+                    rounded-full
+                    bg-gray-50
+                    flex items-center justify-center
+                    transition-transform duration-300
+                    group-hover:scale-105
+                  "
+                >
+                  <img
+                    src={item.image.url}
+                    alt={item.name}
+                    className="w-10 h-q0 rounded-full md:w-9 md:h-9 object-contain"
+                  />
+                </div>
+
+                <h3
+                  className="
+                    text-xs md:text-sm
+                    font-medium
+                    text-gray-700
+                    text-center
+                    leading-tight
+                    group-hover:text-primary
+                    transition-colors
+                  "
+                >
                   {item.name}
                 </h3>
               </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 /**
  * Props:
@@ -56,66 +57,58 @@ const brands = [
 
 export default function FeaturedBrands() {
   // simple animation variants
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
 
   return (
-    <section className="bg-white py-6 border-t border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* Header */}
-        <div className="mb-4  md:text-left">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-            Featured Brands
-          </h2>
-          <p className="text-xs sm:text-sm text-gray-500">
-            Shop top brands we trust.
-          </p>
-        </div>
-
-        {/* Brand logos */}
-        <motion.div
-          className="flex gap-4 overflow-x-auto scrollbar-hide py-2"
-          variants={container}
-          initial="hidden"
-          animate="visible"
+    <section className="px-4 md:px-10 py-2 select-none">
+      <div className="max-w-7xl mx-auto">
+        <div
+          className="flex pt-2 gap-4 md:gap-6 overflow-x-auto scrollbar-hide pb-3"
+          style={{ scrollSnapType: "x mandatory" }}
         >
-          {brands.length === 0
-            ? // fallback placeholders
-              Array.from({ length: 6 }).map((_, i) => (
+          {brands?.map((item, index) => (
+            <Link
+              to={`/products/${item.slug}`}
+              key={index}
+              className="flex-shrink-0 scroll-snap-align-start"
+            >
+              <div
+                className="
+                  group
+                  bg-white
+                  border border-gray-200
+                  rounded-xl
+                  p-4
+                  w-[96px] h-[110px]
+                  sm:w-[110px] sm:h-[125px]
+                  md:w-[130px] md:h-[145px]
+                  flex flex-col items-center justify-between
+                  transition-all duration-300 ease-out
+
+                  hover:border-primary/30
+                  hover:shadow-lg
+                  hover:-translate-y-1
+                "
+              >
                 <div
-                  key={i}
-                  className="flex-shrink-0 w-24 h-24 bg-gray-200 rounded-lg animate-pulse"
-                />
-              ))
-            : brands.map((brand) => (
-                <motion.a
-                  key={brand.id}
-                  href={brand.link || "#"}
-                  className="flex-shrink-0 w-24 h-24 bg-white rounded-lg shadow-sm hover:shadow-md flex items-center justify-center p-2"
-                  variants={item}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="
+                    w-12 h-12 md:w-14 md:h-14
+                    rounded-full
+                    bg-gray-50
+                    flex items-center justify-center
+                    transition-transform duration-300
+                    group-hover:scale-105
+                  "
                 >
                   <img
-                    src={brand.logoUrl}
-                    alt={brand.name}
-                    className="max-h-full max-w-full object-contain"
+                    src={item.logoUrl}
+                    alt={item.name}
+                    className="w-10 h-q0 rounded-full md:w-9 md:h-9 object-contain"
                   />
-                </motion.a>
-              ))}
-        </motion.div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

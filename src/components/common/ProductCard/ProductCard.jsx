@@ -136,7 +136,7 @@ const ProductCard = ({ product }) => {
             )}
 
             {/* Hover Actions */}
-            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-1 sm:gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-1 sm:gap-2  transition-all duration-500">
               <button
                 onClick={() => setShowProductView(true)}
                 className="w-8 h-8 sm:w-9 sm:h-9 hidden md:flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-primary hover:text-white shadow-md transition"
@@ -244,7 +244,7 @@ const ProductCard = ({ product }) => {
               className="w-full flex items-center justify-center gap-1.5 sm:gap-2 border border-primary text-primary rounded-md py-1.5 sm:py-2 text-xs sm:text-sm font-semibold hover:bg-primary cursor-pointer hover:text-white transition-all duration-300"
             >
               {loading ? (
-                <ClipLoader size={20} color="#ffffff" />
+                <ClipLoader size={20} className="text-gray-800" />
               ) : (
                 <>
                   <MdOutlineShoppingCart size={16} className="sm:size-[18px]" />
