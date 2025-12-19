@@ -78,7 +78,6 @@ const ProductDetailsPage = () => {
         const { product, salePrice, isInFlashSale, flashSaleEndTime } =
           res.data;
         setProduct({ ...product, salePrice, isInFlashSale, flashSaleEndTime });
-        console.log(product);
       } catch (error) {
         console.log(error);
       } finally {

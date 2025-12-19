@@ -7,7 +7,6 @@ export const addressApi = {
   update: ({ data, id }) => axiosClient.put(`/address/${id}`, data),
   setDefault: (id) => axiosClient.put(`/address/${id}/setDefault`),
   delete: (id) => {
-    console.log("first" + id);
     axiosClient.delete(`/address/${id}`);
   },
 };

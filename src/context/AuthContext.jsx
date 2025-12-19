@@ -113,7 +113,6 @@ export const AuthContextProvider = ({ children }) => {
       const res = await authApi.addOrRemoveProductToWishList(productId);
       toast.success(res.message);
       setWishList(res.wishList);
-      console.log(wishList);
     } catch (error) {
       console.log(error);
     }

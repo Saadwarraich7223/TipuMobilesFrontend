@@ -49,7 +49,7 @@ const HomePage = () => {
   }, [flashSales]);
 
   return (
-    <>
+    <div className="overflow-hidden">
       <MainBanner />
 
       {activeFlashSales.length === 0 ? (
@@ -68,7 +68,7 @@ const HomePage = () => {
       <Adds1 />
       <CustomerReviews />
       <BlogContainer />
-    </>
+    </div>
   );
 };
 

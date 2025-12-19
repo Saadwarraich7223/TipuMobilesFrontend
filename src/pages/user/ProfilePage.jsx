@@ -82,7 +82,6 @@ export default function ProfilePage() {
     } else {
       // Desktop / larger screen: show in side panel
       setSelectedOrderStatus(status);
-      console.log(selectedOrderStatus);
 
       setSelectedSection("Orders");
     }
@@ -112,7 +111,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen md:px-8  ">
+    <div className="min-h-screen md:px-8   ">
       {/* Navigation Buttons - Only on Large Screens */}
 
       {/* Main Content Grid */}
@@ -126,7 +125,7 @@ export default function ProfilePage() {
         <div className="lg:grid lg:grid-cols-3 lg:gap-6 lg:p-6 lg:max-w-7xl lg:mx-auto">
           {/* Profile Card - Takes 1 column on large screens */}
           <div className="lg:col-span-1">
-            <div className="mb-15 md:mb-0 flex items-center justify-center lg:block">
+            <div className="  flex items-center justify-center lg:block">
               <div className="w-full max-w-md bg-white shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl lg:sticky lg:top-6">
                 {/* Header */}
                 <div className="relative ">

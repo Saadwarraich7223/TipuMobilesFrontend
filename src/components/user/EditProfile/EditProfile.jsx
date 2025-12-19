@@ -94,7 +94,7 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mb-20 md:mb-0  bg-white rounded-xl shadow-md overflow-hidden p-6">
+    <div className="max-w-2xl mx-auto    bg-white rounded-xl shadow-md overflow-hidden p-6">
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <button

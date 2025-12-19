@@ -116,7 +116,7 @@ export default function ShippingAddresses() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6 pb-25 px-4">
+    <div className="min-h-screen bg-gray-50 py-6  px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         {!showForm && (

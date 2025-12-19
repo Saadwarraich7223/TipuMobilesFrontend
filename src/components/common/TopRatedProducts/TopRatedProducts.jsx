@@ -17,7 +17,6 @@ const TopRatedProducts = () => {
           limit: 5,
         });
         setProducts(res.data.products);
-        console.log(res);
       } catch (err) {
         console.error("Failed to fetch top rated products", err);
       } finally {

@@ -73,9 +73,8 @@ const ReviewsSection = () => {
     try {
       setLoading(true);
       const res = await reviewApi.getProductReviews(id);
-      console.log(res);
+
       setReviews(res.reviews);
-      console.log(reviews);
     } catch (error) {
       console.log(error);
     } finally {

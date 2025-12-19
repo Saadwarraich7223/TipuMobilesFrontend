@@ -205,7 +205,7 @@ export default function UserOrders({ status }) {
   };
 
   return (
-    <div className="min-h-screen md:mb-0 mb-20 p-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  p-4 sm:px-6 lg:px-8">
       <button
         onClick={() => {
           navigate("/profile");

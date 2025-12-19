@@ -10,7 +10,7 @@ const Wishlist = () => {
   const { wishList } = useAuthContext();
 
   return (
-    <div className="min-h-screen p-4 md:mb-0 mb-20">
+    <div className="min-h-screen p-4 ">
       <button
         onClick={() => {
           navigate("/profile");

@@ -13,7 +13,7 @@ import CartPage from "../pages/cart/CartPage";
 import HomePage from "../pages/home/HomePage";
 import ProductDetailsPage from "../pages/product/ProductDetailsPage";
 import ProductsListingPage from "../pages/product/ProductsListingPage";
-import CheckoutPage from "../pages/product/CheckoutPage";
+
 import ProfilePage from "../pages/user/ProfilePage";
 import BottomNavLayout from "../layouts/BottomNavLayout";
 
@@ -25,6 +25,7 @@ import UserOrdersPage from "../pages/user/UserOrdersPage";
 import EditProfilePage from "../pages/user/EditProfilePage";
 import WishListPage from "../pages/user/WishListPage";
 import ShippingAddresses from "../pages/user/ShippingAddresses";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 const AppRoutes = () => {
   return (
@@ -34,11 +35,19 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
 
         <Route path={"/product/:id"} element={<ProductDetailsPage />} />
-        <Route path={"/cart"} element={<CartPage />} />
-        <Route path={"/checkout"} element={<CheckoutPage />} />
+
         <Route path="/products/*" element={<ProductsListingPage />} />
       </Route>
       <Route element={<BottomNavLayout />}>
+        <Route path={"/cart"} element={<CartPage />} />
+        <Route
+          path={"/checkout"}
+          element={
+            <ProtectedRoute authOnly>
+              <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path={"/profile"}
           element={
