@@ -6,26 +6,29 @@ import { FiX } from "react-icons/fi";
 const OrderDetailsModal = ({ order, onClose }) => {
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    if (order) {
-      // Trigger animation after mount
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
-  }, [order]);
-
   const handleClose = () => {
     setVisible(false);
-    // Wait for animation to finish before unmount
+
     setTimeout(onClose, 300);
   };
+  useEffect(() => {
+    if (order) {
+      setVisible(true);
+      document.body.classList.add("overflow-hidden");
+    } else {
+      setVisible(false);
+      document.body.classList.remove("overflow-hidden");
+    }
 
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [order]);
   if (!order) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
+      className={`fixed  inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}

@@ -58,3 +58,12 @@ body {
   border-radius: 10px;
   width: 50px !important; /* prevent stretching */
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

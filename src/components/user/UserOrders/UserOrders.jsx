@@ -6,10 +6,12 @@ import OrderDetailsModal from "./OrderDetailsModal";
 import { normalizeStatus } from "./orders.constants";
 import orderApi from "../../../api/orderApi";
 import { IoChevronBack } from "react-icons/io5";
+import OrderCardSkeleton from "../../layout/ShimmerSkeltons/OrderCardSkeleton";
 
 export default function UserOrders() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { search } = useLocation();
   const navigate = useNavigate();
@@ -19,8 +21,10 @@ export default function UserOrders() {
   );
 
   useEffect(() => {
+    setLoading(true);
     orderApi.getUserOrders().then((res) => {
       setOrders(res.orders || []);
+      setLoading(false);
     });
   }, []);
 
@@ -55,7 +59,13 @@ export default function UserOrders() {
         </div>
 
         {/* Orders List */}
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="space-y-6">
+            {[1, 2, 3].map((i) => (
+              <OrderCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl shadow-sm">
             <p className="text-gray-400 text-sm">No orders found.</p>
           </div>
@@ -73,6 +83,7 @@ export default function UserOrders() {
       </div>
 
       {/* Order Details Modal */}
+
       <OrderDetailsModal
         order={selectedOrder}
         onClose={() => setSelectedOrder(null)}
