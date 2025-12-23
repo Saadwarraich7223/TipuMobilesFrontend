@@ -19,7 +19,9 @@ const OrderSubmitted = () => {
   const [secondsLeft, setSecondsLeft] = useState(8);
 
   useEffect(() => {
-    if (!order) navigate("/");
+    if (!order) {
+      navigate("/", { replace: true });
+    }
   }, [order, navigate]);
 
   useEffect(() => {
@@ -32,7 +34,10 @@ const OrderSubmitted = () => {
       setSecondsLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          navigate(`/profile/orders`);
+          navigate("/profile/orders?order-status=all orders", {
+            replace: true,
+          });
+
           return 0;
         }
         return prev - 1;

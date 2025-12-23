@@ -151,6 +151,7 @@ const CheckoutPage = () => {
         state: {
           order: res.order, // or res depending on your API
         },
+        replace: true,
       });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to place order");
