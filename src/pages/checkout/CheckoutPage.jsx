@@ -7,6 +7,9 @@ import OrderSummary from "../../components/checkout/OrderSummary";
 import AddressCard from "../../components/checkout/AddressCard";
 import AddAddressModal from "../../components/checkout/AddAddressModal";
 import CheckoutSkeleton from "../../components/layout/ShimmerSkeltons/ChechkoutSkeleton";
+import ClipLoader from "react-spinners/ClipLoader";
+import { useCart } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const stepVariants = {
   initial: (direction) => ({
@@ -26,6 +29,8 @@ const stepVariants = {
 const steps = ["Shipping", "Payment", "Review"];
 
 const CheckoutPage = () => {
+  const { fetchCart } = useCart();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(0);
   const [cart, setCart] = useState([]);
@@ -54,6 +59,7 @@ const CheckoutPage = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("card"); // Added paymentMethod state
   const [loading, setLoading] = useState(false);
+  const [placingOrderLoading, setPlacingOrderLoading] = useState(false);
 
   useEffect(() => {
     const fetchCheckoutData = async () => {
@@ -132,14 +138,24 @@ const CheckoutPage = () => {
   };
 
   const handlePlaceOrder = async () => {
-    setLoading(true);
+    setPlacingOrderLoading(true);
     try {
-      await orderApi.placeOrder({ shippingInfo, paymentInfo, paymentMethod });
+      const res = await orderApi.placeOrder({
+        shippingInfo,
+        paymentInfo,
+        paymentMethod,
+      });
       toast.success("Order placed successfully!");
+      fetchCart();
+      navigate("/order-submitted", {
+        state: {
+          order: res.order, // or res depending on your API
+        },
+      });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to place order");
     } finally {
-      setLoading(false);
+      setPlacingOrderLoading(false);
     }
   };
 
@@ -419,10 +435,14 @@ const CheckoutPage = () => {
               ) : (
                 <button
                   onClick={handlePlaceOrder}
-                  disabled={loading}
+                  disabled={placingOrderLoading}
                   className="ml-auto px-6 py-2 bg-green-600 text-white rounded-lg disabled:opacity-50"
                 >
-                  {loading ? "Placing Order..." : "Confirm Order"}
+                  {placingOrderLoading ? (
+                    <ClipLoader size={16} color="#ffff" className="mt-1" />
+                  ) : (
+                    "Confirm Order"
+                  )}
                 </button>
               )}
             </div>

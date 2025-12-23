@@ -30,30 +30,38 @@ const CartPage = () => {
     }
   };
 
-  const EmptyCart = () => (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-      <div className="max-w-md w-full text-center">
-        <div className="mb-4">
-          <div className="w-20 h-20 mx-auto bg-gray-200 rounded-full flex items-center justify-center shadow-inner">
-            <IoBagOutline size={30} className="text-gray-400" />
+  const EmptyCart = () => {
+    return (
+      <div className="  flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-lg bg-white rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-8 sm:p-10 text-center">
+          {/* Icon */}
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50 border">
+            <IoBagOutline size={32} className="text-gray-400" />
           </div>
+
+          {/* Title */}
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+            Your cart is empty
+          </h2>
+
+          {/* Description */}
+          <p className="mt-3 text-sm sm:text-base text-gray-500 leading-relaxed">
+            You haven’t added any items yet. Browse our products and start
+            building your cart.
+          </p>
+
+          {/* CTA */}
+          <button
+            onClick={continueShopping}
+            className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-white font-medium hover:opacity-90 transition"
+          >
+            <IoStorefrontOutline size={18} />
+            Continue shopping
+          </button>
         </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Your Cart is Empty
-        </h2>
-        <p className="text-gray-500 mb-6 text-sm">
-          Looks like you haven’t added anything yet. Start shopping now!
-        </p>
-        <button
-          onClick={continueShopping}
-          className="w-full bg-primary hover:bg-primary/90 text-white py-2 rounded-md font-semibold flex items-center justify-center gap-2 transition"
-        >
-          <IoStorefrontOutline size={18} />
-          Continue Shopping
-        </button>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (loading) return <CartSkeleton />;
   if (!cart?.items || cart.items.length === 0) return <EmptyCart />;

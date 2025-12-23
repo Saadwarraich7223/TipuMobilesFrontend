@@ -26,6 +26,7 @@ import EditProfilePage from "../pages/user/EditProfilePage";
 import WishListPage from "../pages/user/WishListPage";
 import ShippingAddresses from "../pages/user/ShippingAddresses";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
+import OrderSubmitted from "../pages/checkout/OrderSubmitted";
 
 const AppRoutes = () => {
   return (
@@ -45,6 +46,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute authOnly>
               <CheckoutPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={"/order-submitted"}
+          element={
+            <ProtectedRoute authOnly>
+              <OrderSubmitted />
             </ProtectedRoute>
           }
         />
