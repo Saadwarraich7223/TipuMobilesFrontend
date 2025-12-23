@@ -28,11 +28,13 @@ import ClipLoader from "react-spinners/ClipLoader";
 import toast from "react-hot-toast";
 import { useCart } from "../../context/CartContext";
 import ShippingAddresses from "./ShippingAddresses";
+import ProfileSkeleton from "../../components/layout/ShimmerSkeltons/ProfileSkeleton";
 
 export default function ProfilePage() {
   const { navigate } = useAppContext();
   const { initializeCart } = useCart();
-  const { user, loadingUser, logout, updateAvatar } = useAuthContext();
+  const { user, loadingUser, logout, updateAvatar, setLoadingUser } =
+    useAuthContext();
   const [selectedOrderStatus, setSelectedOrderStatus] = useState("All");
   const [selectedSection, setSelectedSection] = useState(null);
 
@@ -40,9 +42,11 @@ export default function ProfilePage() {
   const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
+    setLoadingUser(true);
     if (user) {
       if (user.avatar?.url) setImagePreview(user.avatar.url);
     }
+    setLoadingUser(false);
   }, [user]);
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -109,18 +113,11 @@ export default function ProfilePage() {
     { icon: TbLockPassword, label: "Change Password" },
     { icon: IoLocationOutline, label: "Shipping Address" },
   ];
-
+  // return null;
   return (
     <div className="min-h-screen md:px-8   ">
-      {/* Navigation Buttons - Only on Large Screens */}
-
-      {/* Main Content Grid */}
-
       {loadingUser ? (
-        <div className="w-ful h-screen flex items-center justify-center">
-          {" "}
-          <ClipLoader size={30} color="#ff5252" />
-        </div>
+        <ProfileSkeleton />
       ) : (
         <div className="lg:grid lg:grid-cols-3 lg:gap-6 lg:p-6 lg:max-w-7xl lg:mx-auto">
           {/* Profile Card - Takes 1 column on large screens */}
@@ -148,10 +145,9 @@ export default function ProfilePage() {
                   <div className="flex justify-center my-2">
                     <div className="relative group">
                       <div className="md:w-32 w-20 h-20 md:h-32 rounded-full overflow-hidden border-4 border-primary shadow-lg transform  transition-transform duration-300 group-hover:scale-105">
-                        {loading ? (
+                        {loadingUser || loading ? (
                           <div className="w-full h-full flex items-center justify-center">
-                            {" "}
-                            <ClipLoader size={30} color="#ff5252" />
+                            <ClipLoader size={20} color="#ff5252" />
                           </div>
                         ) : (
                           <img

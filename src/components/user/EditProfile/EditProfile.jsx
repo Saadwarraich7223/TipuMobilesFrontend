@@ -4,6 +4,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { useAuthContext } from "../../../context/AuthContext";
 import ClipLoader from "react-spinners/ClipLoader";
 import toast from "react-hot-toast";
+import ProfileSkeleton from "../../layout/ShimmerSkeltons/ProfileSkeleton";
 
 export default function EditProfile() {
   const { navigate, user, loadingUser, updateProfile } = useAuthContext();
@@ -26,11 +27,7 @@ export default function EditProfile() {
   }, [user]);
 
   if (loadingUser) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-50">
-        <ClipLoader size={50} color="#ff5252" />
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   // Validations

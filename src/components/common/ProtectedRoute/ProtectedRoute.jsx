@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import ProfileSkeleton from "../../layout/ShimmerSkeltons/ProfileSkeleton";
 
 const ProtectedRoute = ({ children, authOnly = true }) => {
   const { user, loadingUser, navigate } = useAuthContext();
@@ -19,11 +20,7 @@ const ProtectedRoute = ({ children, authOnly = true }) => {
   }, [user, loadingUser, authOnly, navigate, location]);
 
   if (loadingUser) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <ClipLoader size={50} color="#ff5252" />
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if ((authOnly && !user) || (!authOnly && user)) return null;
