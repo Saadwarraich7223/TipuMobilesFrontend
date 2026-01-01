@@ -57,10 +57,10 @@ export default function MobileBottomNav() {
                     onClick={() => navigate(item.path)}
                   >
                     {active && (
-                      <span className="absolute  -top-5   h-18 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
+                      <span className="absolute  -top-6   h-20 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
                     )}
                     {active && (
-                      <span className="absolute -top-[14px] h-[4px] w-12 rounded-full bg-primary" />
+                      <span className="absolute -top-[14.5px] h-[4px] w-12 rounded-full bg-primary" />
                     )}
                     <div
                       className={`relative transition-all duration-300 ${
@@ -75,15 +75,15 @@ export default function MobileBottomNav() {
                         }`}
                       >
                         {item.label === "Account" && user ? (
-                          <div className="w-6 h-6">
+                          <div className="w-[18px] h-[18px]">
                             <img
                               src={cld(
                                 user.avatar.url,
                                 "f_auto,q_auto,w_96,h_96,c_fill"
                               )}
                               alt={user.name}
-                              width="24"
-                              height="24"
+                              width="18"
+                              height="18"
                               className="w-full h-full rounded-full object-cover"
                             />
                           </div>
