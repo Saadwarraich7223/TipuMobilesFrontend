@@ -35,10 +35,10 @@ export default function MobileBottomNav() {
           paddingBottom: "env(safe-area-inset-bottom)",
           height: "80px",
         }}
-        className="w-full sm:hidden select-none fixed bottom-0 right-0 left-0 pb-safe z-20 flex items-end justify-center"
+        className="w-full sm:hidden select-none fixed bottom-0  right-0 left-0 pb-safe z-20 flex items-end justify-center"
       >
-        <nav className="w-full bg-white rounded-t-xl backdrop-blur-xl border-t border-gray-200 shadow-xl">
-          <ul className="relative flex justify-around items-center py-3">
+        <nav className="w-full bg-white rounded-b-xl backdrop-blur-xl border border-gray-200 shadow-xl">
+          <ul className="relative  overflow-hidden flex justify-around items-center py-3">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active =
@@ -56,6 +56,12 @@ export default function MobileBottomNav() {
                     className="flex cursor-pointer flex-col items-center group relative"
                     onClick={() => navigate(item.path)}
                   >
+                    {active && (
+                      <span className="absolute  -top-3 h-16 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
+                    )}
+                    {active && (
+                      <span className="absolute -top-[13px] h-[4px] w-12 rounded-full bg-primary" />
+                    )}
                     <div
                       className={`relative transition-all duration-300 ${
                         active ? "scale-110" : "group-hover:scale-105"
@@ -64,7 +70,7 @@ export default function MobileBottomNav() {
                       <div
                         className={`relative p-1.5 rounded-xl transition-all duration-300 ${
                           active
-                            ? "bg-primary/20 text-white shadow-lg"
+                            ? " text-white "
                             : "bg-transparent group-hover:bg-gray-100"
                         }`}
                       >
