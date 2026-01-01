@@ -60,7 +60,7 @@ export default function MobileBottomNav() {
                       <span className="absolute  -top-6   h-20 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
                     )}
                     {active && (
-                      <span className="absolute -top-[14.5px] h-[4px] w-12 rounded-full bg-primary" />
+                      <span className="absolute -top-[13.5px] h-[4px] w-12 rounded-full bg-primary" />
                     )}
                     <div
                       className={`relative transition-all duration-300 ${
