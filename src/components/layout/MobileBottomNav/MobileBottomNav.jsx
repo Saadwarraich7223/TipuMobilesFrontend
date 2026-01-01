@@ -57,10 +57,10 @@ export default function MobileBottomNav() {
                     onClick={() => navigate(item.path)}
                   >
                     {active && (
-                      <span className="absolute  -top-4 h-16 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
+                      <span className="absolute  -top-5   h-18 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
                     )}
                     {active && (
-                      <span className="absolute -top-[14px] h-[4px] w-12 rounded-full bg-primary" />
+                      <span className="absolute -top-[15px] h-[4px] w-12 rounded-full bg-primary" />
                     )}
                     <div
                       className={`relative transition-all duration-300 ${
