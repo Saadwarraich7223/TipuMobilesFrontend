@@ -74,11 +74,14 @@ const MainBanner = () => {
             <SwiperSlide key={banner._id || i}>
               <div className="relative w-full aspect-[16/9] sm:aspect-[3/1] lg:aspect-[4/1] rounded-2xl overflow-hidden shadow-lg">
                 <img
-                  src={cld(banner.image.url, "f_auto,q_auto,w_1200")}
+                  src={cld(banner.image.url, "f_auto,q_auto:low,w_1200")}
                   srcSet={`
-                       ${cld(banner.image.url, "f_auto,q_auto,w_480")} 480w,
-                       ${cld(banner.image.url, "f_auto,q_auto,w_768")} 768w,
-                       ${cld(banner.image.url, "f_auto,q_auto,w_1200")} 1200w
+                       ${cld(banner.image.url, "f_auto,q_auto:low,w_480")} 480w,
+                       ${cld(banner.image.url, "f_auto,q_auto:low,w_768")} 768w,
+                       ${cld(
+                         banner.image.url,
+                         "f_auto,q_auto:low,w_1200"
+                       )} 1200w
                        `}
                   sizes="(max-width: 768px) 100vw, 1200px"
                   alt={`banner-${i}`}
