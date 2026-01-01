@@ -1,6 +1,3 @@
-import React from "react";
-import { BiArrowBack } from "react-icons/bi";
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = [];
   const maxButtons = 3;

@@ -1,7 +1,6 @@
-import React from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { useCart } from "../../../context/CartContext";
-import { MdOutlineDelete } from "react-icons/md";
+import { Trash } from "lucide-react";
 import CartSidebarSkeleton from "../ShimmerSkeltons/CartSidebarSkeleto";
 
 const CartSidebar = () => {
@@ -101,7 +100,7 @@ const CartSidebar = () => {
                 onClick={() => removeItem({ productId: item.product })}
                 className="bg-primary/10 hover:bg-primary/20 text-primary p-1.5 rounded-md transition"
               >
-                <MdOutlineDelete size={18} />
+                <Trash size={18} />
               </button>
             </div>
           ))}

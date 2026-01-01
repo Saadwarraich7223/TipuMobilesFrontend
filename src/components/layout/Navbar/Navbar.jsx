@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-import { IoClose, IoNotificationsOutline } from "react-icons/io5";
-
-import { BiSearch } from "react-icons/bi";
-import { HiMenu } from "react-icons/hi";
-import { GoHeart } from "react-icons/go";
 
 import { useAppContext } from "../../../context/AppContext";
 import { useAuthContext } from "../../../context/AuthContext";
-import { LuShoppingCart } from "react-icons/lu";
+
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
 import CetgorySideBar from "../CategorySidebar/CetgorySideBar";
-import { CgOptions } from "react-icons/cg";
+import {
+  Bell,
+  Funnel,
+  Heart,
+  LogOut,
+  Menu,
+  Search,
+  ShoppingCart,
+  X,
+} from "lucide-react";
 
 // ---------------- COMPONENTS ------------------
 
@@ -49,6 +52,7 @@ const UserMenu = ({ user, navigate, logout }) => {
     <div className="relative">
       {/* User Button */}
       <button
+        aria-label="User Menu"
         onClick={() => setOpen(!open)}
         className="md:flex hidden items-center gap-2 px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
       >
@@ -62,26 +66,26 @@ const UserMenu = ({ user, navigate, logout }) => {
         <ul className="absolute top-12 right-0 bg-white w-48 shadow-lg rounded-lg border z-50">
           <Link to="/profile">
             <DropdownItem
-              icon={FiHeart}
+              icon={Heart}
               label="My Account"
               onClick={() => setOpen(false)}
             />
           </Link>
 
           <DropdownItem
-            icon={IoNotificationsOutline}
+            icon={Bell}
             label="Orders"
             onClick={() => setOpen(false)}
           />
 
           <DropdownItem
-            icon={FiHeart}
+            icon={Heart}
             label="My Wishlist"
             onClick={() => setOpen(false)}
           />
 
           <DropdownItem
-            icon={IoClose}
+            icon={LogOut}
             label="Logout"
             isLogout
             onClick={logoutHandler}
@@ -91,6 +95,7 @@ const UserMenu = ({ user, navigate, logout }) => {
     </div>
   ) : (
     <button
+      aria-label="Login"
       onClick={() => navigate("/login")}
       className="px-5 py-2 rounded-full bg-black text-white text-sm font-semibold hover:bg-gray-900 transition"
     >
@@ -148,11 +153,16 @@ const Navbar = () => {
         {/* LEFT — Menu + Logo */}
         <div className="flex items-center gap-3">
           <button
+            aria-label="Open Sidebar"
             title="Shop By Categories"
             onClick={() => setIsSideBarOpen(!isSideBarOpen)}
             className="cursor-pointer text-gray-700"
           >
-            {isSideBarOpen ? <IoClose size={24} /> : <HiMenu size={24} />}
+            {isSideBarOpen ? (
+              <X size={24} />
+            ) : (
+              <Menu size={24} className="text-gray-700" />
+            )}
           </button>
 
           <MobileSidebar isOpen={isSideBarOpen} setIsOpen={setIsSideBarOpen} />
@@ -160,6 +170,7 @@ const Navbar = () => {
           {/* Gradient Logo */}
           <Link
             to="/"
+            aria-label="Home"
             className="font-bold text-xl bg-gradient-to-r from-gray-900 via-purple-500 to-purple-400 bg-clip-text text-transparent"
           >
             Tipu Mobiles
@@ -171,7 +182,7 @@ const Navbar = () => {
       w-[40%]] 
     "
         >
-          <BiSearch size={20} className="text-gray-500" />
+          <Search size={20} className="text-gray-500" />
           <input
             type="text"
             placeholder="Search here"
@@ -193,16 +204,18 @@ const Navbar = () => {
           </div>
 
           <button
+            aria-label="Favorite Items List"
             title="Favorite Items"
             className="  text-gray-700 mr-2 cursor-pointer transition-all active:scale-95"
           >
-            <Link to="/profile/wishlist">
-              <GoHeart size={21} />
+            <Link to="/profile/wishlist" aria-label="Go to wishlist">
+              <Heart size={21} className="text-gray-600" />
             </Link>
           </button>
 
           {/* Cart Primary */}
           <button
+            aria-label="Go to Cart"
             title="Your Cart"
             onClick={() => {
               if (window.innerWidth < 768) {
@@ -213,7 +226,7 @@ const Navbar = () => {
             }}
             className="text-gray-700 cursor-pointer active:scale-95"
           >
-            <LuShoppingCart size={24} />
+            <ShoppingCart size={24} className="text-gray-600" />
           </button>
         </div>
       </div>
@@ -223,7 +236,7 @@ const Navbar = () => {
           <div className="flex items-center bg-white w-full border border-gray-300 rounded-lg py-2 px-4  transition-all duration-300">
             {/* Icon disappears and frees space */}
             {!isFocused && (
-              <BiSearch
+              <Search
                 size={20}
                 className="text-gray-500 mr-2 transition-opacity duration-200"
               />
@@ -240,11 +253,12 @@ const Navbar = () => {
           </div>
 
           <button
+            aria-label="Filter Products"
             title="Filter Products"
             onClick={() => setShowMobileFilterBox((prev) => !prev)}
             className="bg-white border border-gray-300 cursor-pointer p-2 rounded-lg text-gray-700 flex-shrink-0"
           >
-            <CgOptions className="text-xl text-[#f75e5e]" />
+            <Funnel size={20} className="text-lg text-[#f75e5e]" />
           </button>
         </div>
       )}

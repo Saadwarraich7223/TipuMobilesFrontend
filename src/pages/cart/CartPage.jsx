@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import {
-  IoClose,
-  IoRemove,
-  IoAdd,
-  IoReturnUpBackOutline,
-  IoBagOutline,
-  IoStorefrontOutline,
-  IoTrashOutline,
-} from "react-icons/io5";
+  X,
+  Minus,
+  Plus,
+  CornerUpLeft,
+  ShoppingBag,
+  Store,
+  Trash2,
+} from "lucide-react";
+
 import { useAppContext } from "../../context/AppContext";
 import { useCart } from "../../context/CartContext";
 import CartSkeleton from "../../components/layout/ShimmerSkeltons/CartSkeleton";
@@ -36,7 +38,7 @@ const CartPage = () => {
         <div className="w-full max-w-lg bg-white rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.08)] p-8 sm:p-10 text-center">
           {/* Icon */}
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-neutral-50 border">
-            <IoBagOutline size={32} className="text-gray-400" />
+            <ShoppingBag size={32} className="text-gray-400" />
           </div>
 
           {/* Title */}
@@ -55,7 +57,7 @@ const CartPage = () => {
             onClick={continueShopping}
             className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-white font-medium hover:opacity-90 transition"
           >
-            <IoStorefrontOutline size={18} />
+            <Store size={18} />
             Continue shopping
           </button>
         </div>
@@ -94,7 +96,7 @@ const CartPage = () => {
                   onClick={() => removeItem({ productId: item.product })}
                   className="text-gray-400 hover:text-red-500 transition"
                 >
-                  <IoClose size={18} />
+                  <X size={18} />
                 </button>
                 <div className="w-20 h-24 rounded-md overflow-hidden flex-shrink-0 bg-gray-100">
                   <img
@@ -137,7 +139,7 @@ const CartPage = () => {
                     }
                     className="p-2 hover:bg-gray-50 text-gray-600"
                   >
-                    <IoRemove size={14} />
+                    <Minus size={14} />
                   </button>
                   <span className="px-4 py-1 text-sm min-w-[2.5rem] text-center border-l border-r border-gray-300">
                     {item.quantity}
@@ -151,7 +153,7 @@ const CartPage = () => {
                     }
                     className="p-2 hover:bg-gray-50 text-gray-600"
                   >
-                    <IoAdd size={14} />
+                    <Plus size={14} />
                   </button>
                 </div>
               </div>
@@ -169,7 +171,7 @@ const CartPage = () => {
               onClick={() => navigate("/products")}
               className="flex items-center justify-center gap-2 px-5 py-3 border border-gray-300 rounded-md hover:bg-gray-100 transition w-full sm:w-auto text-sm font-medium"
             >
-              <IoReturnUpBackOutline size={18} />
+              <CornerUpLeft size={18} />
               Continue Shopping
             </button>
 
@@ -177,7 +179,7 @@ const CartPage = () => {
               onClick={clearCart}
               className="flex items-center justify-center gap-2 px-5 py-3 border border-red-400 text-red-500 rounded-md hover:bg-red-100 transition w-full sm:w-auto text-sm font-medium"
             >
-              <IoTrashOutline size={18} />
+              <Trash2 size={18} />
               Clear Cart
             </button>
           </div>

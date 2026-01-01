@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { IoChevronBack } from "react-icons/io5";
+import { useEffect, useState } from "react";
+
 import toast from "react-hot-toast";
 
 import AddressForm from "../../components/user/ShippingAddresses/AddressForm";
@@ -12,6 +11,7 @@ import { useAppContext } from "../../context/AppContext";
 import { useAuthContext } from "../../context/AuthContext";
 import SlideOver from "../../components/user/ShippingAddresses/SlideOver";
 import AddressSkeleton from "../../components/layout/ShimmerSkeltons/AddressSkeleton";
+import { ChevronLeft, Plus } from "lucide-react";
 
 export default function ShippingAddresses() {
   const { navigate } = useAppContext();
@@ -125,7 +125,7 @@ export default function ShippingAddresses() {
               onClick={() => navigate("/profile")}
               className="md:hidden p-2 rounded hover:bg-gray-100"
             >
-              <IoChevronBack size={24} className="text-gray-700" />
+              <ChevronLeft size={24} className="text-gray-700" />
             </button>
 
             <h1 className="flex-1 text-center text-xl md:text-2xl font-semibold text-gray-800">
@@ -136,7 +136,7 @@ export default function ShippingAddresses() {
               onClick={handleAddNew}
               className="hidden md:flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-md hover:bg-pink-600"
             >
-              <FiPlus /> Add New
+              <Plus /> Add New
             </button>
           </div>
         )}
@@ -147,7 +147,7 @@ export default function ShippingAddresses() {
             onClick={handleAddNew}
             className="md:hidden w-full flex items-center justify-center gap-2 bg-primary text-white py-3 rounded-md mb-6 hover:bg-pink-600"
           >
-            <FiPlus /> Add New Address
+            <Plus /> Add New Address
           </button>
         )}
 

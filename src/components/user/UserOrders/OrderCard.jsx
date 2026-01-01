@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import StatusBadge from "./StatusBadge";
-import { FiEye, FiDownload } from "react-icons/fi";
+
+import { Eye, Download } from "lucide-react";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 12 },
@@ -98,7 +99,7 @@ const OrderCard = ({ order, onView }) => {
             transition-colors
           "
         >
-          <FiEye size={16} />
+          <Eye size={16} />
           View order
         </motion.button>
 
@@ -113,7 +114,7 @@ const OrderCard = ({ order, onView }) => {
               transition-colors
             "
           >
-            <FiDownload size={14} />
+            <Download size={14} />
             Download invoice
           </motion.button>
         )}

@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import {
-  IoChevronBack,
-  IoCamera,
-  IoWalletOutline,
-  IoCheckmarkCircle,
-  IoTimeOutline,
-  IoCloseCircle,
-  IoHeartOutline,
-  IoHeadsetOutline,
-  IoPersonOutline,
-  IoLocationOutline,
-  IoChevronForward,
-  IoLogOutOutline,
-  IoGridOutline,
-  IoAirplaneOutline,
-} from "react-icons/io5";
-import { TbLockPassword } from "react-icons/tb";
-import { useAppContext } from "../../context/AppContext";
+import { useEffect, useState } from "react";
 
+import {
+  ChevronLeft,
+  Camera,
+  CreditCard,
+  CheckCircle,
+  Clock,
+  XCircle,
+  Heart,
+  User,
+  MapPin,
+  ChevronRight,
+  LogOut,
+  Grid,
+  Plane,
+  LockKeyhole,
+} from "lucide-react";
+import { useAppContext } from "../../context/AppContext";
 import EditProfile from "../../components/user/EditProfile/EditProfile";
 import ChangePassword from "../../components/user/ChangePassword/ChangePassword";
 
@@ -99,19 +98,19 @@ export default function ProfilePage() {
     }
   };
   const orderStatus = [
-    { icon: IoGridOutline, label: "All Orders", color: "bg-indigo-400" },
-    { icon: IoWalletOutline, label: "Pending", color: "bg-cyan-400" },
-    { icon: IoAirplaneOutline, label: "Being Shipped", color: "bg-teal-400" },
-    { icon: IoCheckmarkCircle, label: "Delivered", color: "bg-yellow-400" },
-    { icon: IoTimeOutline, label: "Processing", color: "bg-pink-400" },
-    { icon: IoCloseCircle, label: "Cancelled", color: "bg-green-400" },
+    { icon: Grid, label: "All Orders", color: "bg-indigo-400" },
+    { icon: CreditCard, label: "Pending", color: "bg-cyan-400" },
+    { icon: Plane, label: "Being Shipped", color: "bg-teal-400" },
+    { icon: CheckCircle, label: "Delivered", color: "bg-yellow-400" },
+    { icon: Clock, label: "Processing", color: "bg-pink-400" },
+    { icon: XCircle, label: "Cancelled", color: "bg-green-400" },
   ];
 
   const menuItems = [
-    { icon: IoHeartOutline, label: "Wishlist" },
-    { icon: IoPersonOutline, label: "Edit Profile" },
-    { icon: TbLockPassword, label: "Change Password" },
-    { icon: IoLocationOutline, label: "Shipping Address" },
+    { icon: Heart, label: "Wishlist" },
+    { icon: User, label: "Edit Profile" },
+    { icon: LockKeyhole, label: "Change Password" },
+    { icon: MapPin, label: "Shipping Address" },
   ];
   // return null;
   return (
@@ -132,7 +131,7 @@ export default function ProfilePage() {
                       onClick={() => navigate(-1)}
                       className="absolute cursor-pointer left-4 text-gray-700 hover:text-primary transition-colors duration-300"
                     >
-                      <IoChevronBack size={24} />
+                      <ChevronLeft size={24} />
                     </button>
 
                     {/* Centered Title */}
@@ -163,7 +162,7 @@ export default function ProfilePage() {
                         }}
                         className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md hover:bg-primary hover:text-white  transition-all cursor-pointer duration-300"
                       >
-                        <IoCamera
+                        <Camera
                           size={20}
                           className="text-gray-600 group-hover:text-white transition-colors"
                         />
@@ -263,7 +262,7 @@ export default function ProfilePage() {
                           {item.label}
                         </span>
                       </div>
-                      <IoChevronForward
+                      <ChevronRight
                         size={20}
                         className="text-gray-400 transition-colors duration-300 group-hover:text-primary"
                       />
@@ -277,7 +276,7 @@ export default function ProfilePage() {
                     onClick={() => logoutHandler()}
                     className="w-full bg-primary/90  rounded-xl flex items-center justify-center gap-2 py-3 text-white hover:bg-primary-dull cursor-pointer transition-all duration-300 hover:scale-105"
                   >
-                    <IoLogOutOutline size={20} />
+                    <LogOut size={20} />
                     <span className="font-medium">Logout</span>
                   </button>
                 </div>

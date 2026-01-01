@@ -1,49 +1,100 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
+import { useEffect, useState } from "react";
+import bannersApi from "../../../api/bannersApi";
+import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
 
-import { Pagination, Autoplay } from "swiper/modules";
+const FALLBACK_LCP_IMAGE =
+  "https://res.cloudinary.com/dti1kpfhi/image/upload/f_auto,q_auto,w_1200/banner/rok6xnrhdqbvyo2ot8rc.webp";
+
+const runWhenIdle = (cb) => {
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(cb);
+  } else {
+    setTimeout(cb, 1);
+  }
+};
 
 const MainBanner = () => {
-  const images = [
-    "https://api.spicezgold.com/download/file_1734524985581_NewProject(11).jpg",
-    "https://api.spicezgold.com/download/file_1734525014348_NewProject(7).jpg",
-    "https://api.spicezgold.com/download/file_1734524930884_NewProject(6).jpg",
-    "https://api.spicezgold.com/download/file_1734524971122_NewProject(8).jpg",
-    "https://api.spicezgold.com/download/file_1734525002307_1723967638078_slideBanner1.6bbeed1a0c8ffb494f7c.jpg",
-  ];
+  const [banners, setBanners] = useState([]);
+  const [Swiper, setSwiper] = useState(null);
+  const [SwiperSlide, setSwiperSlide] = useState(null);
+  const [swiperModules, setSwiperModules] = useState([]);
+
+  useEffect(() => {
+    runWhenIdle(() => {
+      bannersApi
+        .get("/", { params: { position: "top", isActive: true } })
+        .then((res) => setBanners(res.data || []))
+        .catch(console.error);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!banners.length) return;
+
+    runWhenIdle(async () => {
+      const swiperReact = await import("swiper/react");
+      const swiperModules = await import("swiper/modules");
+
+      await import("swiper/css");
+      await import("swiper/css/pagination");
+
+      setSwiper(() => swiperReact.Swiper);
+      setSwiperSlide(() => swiperReact.SwiperSlide);
+      setSwiperModules([swiperModules.Pagination, swiperModules.Autoplay]);
+    });
+  }, [banners]);
+
   return (
-    <div className="homeslider overflow-hidden py-2 select-none">
-      <div className="container">
+    <section className="px-2 py-2 overflow-hidden select-none">
+      {!Swiper && (
+        <div className="relative w-full aspect-[16/9] sm:aspect-[3/1] lg:aspect-[4/1] rounded-2xl overflow-hidden shadow-lg">
+          <img
+            src={FALLBACK_LCP_IMAGE}
+            alt="Main Banner"
+            width="1200"
+            height="300"
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      )}
+
+      {Swiper && SwiperSlide && banners.length > 0 && (
         <Swiper
+          slidesPerView="auto"
           spaceBetween={15}
-          centeredSlides={true}
-          loop={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          modules={[Pagination, Autoplay]}
-          className="mySwiper"
+          loop={banners.length > 2}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{ clickable: true, dynamicBullets: true }}
+          modules={swiperModules}
+          className="mt-3"
         >
-          {images.map((src, i) => (
-            <SwiperSlide key={i}>
-              <div className="item rounded-2xl overflow-hidden shadow-lg transition-transform duration-500 hover:scale-[1.02]">
+          {banners.map((banner, i) => (
+            <SwiperSlide key={banner._id || i}>
+              <div className="relative w-full aspect-[16/9] sm:aspect-[3/1] lg:aspect-[4/1] rounded-2xl overflow-hidden shadow-lg">
                 <img
-                  src={src}
+                  src={cld(banner.image.url, "f_auto,q_auto,w_1200")}
+                  srcSet={`
+                       ${cld(banner.image.url, "f_auto,q_auto,w_480")} 480w,
+                       ${cld(banner.image.url, "f_auto,q_auto,w_768")} 768w,
+                       ${cld(banner.image.url, "f_auto,q_auto,w_1200")} 1200w
+                       `}
+                  sizes="(max-width: 768px) 100vw, 1200px"
                   alt={`banner-${i}`}
-                  className="w-full h-[150px]  md:h-[300px] object-cover"
+                  width="1200"
+                  height="300"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : "auto"}
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
-    </div>
+      )}
+    </section>
   );
 };
 

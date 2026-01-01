@@ -1,14 +1,13 @@
-import React from "react";
 import {
-  FiEdit2,
-  FiTrash2,
-  FiCheck,
-  FiHome,
-  FiBriefcase,
-  FiMapPin,
-  FiPhone,
-  FiMail,
-} from "react-icons/fi";
+  Edit2,
+  Trash2,
+  Check,
+  Home,
+  Briefcase,
+  MapPin,
+  Phone,
+  Mail,
+} from "lucide-react";
 
 export default function AddressCard({
   address,
@@ -18,10 +17,10 @@ export default function AddressCard({
 }) {
   const Icon =
     address.addressType === "Home"
-      ? FiHome
+      ? Home
       : address.addressType === "Work"
-      ? FiBriefcase
-      : FiHome;
+      ? Briefcase
+      : Home;
 
   return (
     <div
@@ -42,7 +41,7 @@ export default function AddressCard({
 
         {address.isDefault && (
           <span className="text-xs px-3 py-1 bg-primary/10 text-primary font-medium rounded-full flex items-center gap-1">
-            <FiCheck size={12} /> Default
+            <Check size={12} /> Default
           </span>
         )}
       </div>
@@ -50,17 +49,17 @@ export default function AddressCard({
       {/* Body */}
       <div className="space-y-2 text-sm text-gray-700">
         <p className="flex items-center gap-2 text-gray-600">
-          <FiPhone size={14} /> {address.phone}
+          <Phone size={14} /> {address.phone}
         </p>
 
         {address.email && (
           <p className="flex items-center gap-2 text-gray-600">
-            <FiMail size={14} /> {address.email}
+            <Mail size={14} /> {address.email}
           </p>
         )}
 
         <p className="flex items-center gap-2">
-          <FiMapPin size={14} />
+          <MapPin size={14} />
           <span>
             {address.addressLine1}
             {address.addressLine2 && `, ${address.addressLine2}`} <br />
@@ -77,7 +76,7 @@ export default function AddressCard({
           onClick={onEdit}
           className="flex items-center justify-center gap-2 py-2.5 rounded-md bg-primary text-white hover:bg-primary/90 transition"
         >
-          <FiEdit2 size={14} /> Edit Address
+          <Edit2 size={14} /> Edit Address
         </button>
 
         {/* Delete Button */}
@@ -85,7 +84,7 @@ export default function AddressCard({
           onClick={onDelete}
           className="flex items-center justify-center gap-2 py-2.5 rounded-md bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition"
         >
-          <FiTrash2 size={14} /> Delete
+          <Trash2 size={14} /> Delete
         </button>
 
         {/* Set Default Button */}
@@ -94,7 +93,7 @@ export default function AddressCard({
             onClick={onSetDefault}
             className="flex items-center justify-center gap-2 py-2.5 rounded-md border border-gray-200 hover:bg-gray-50 text-gray-700 transition"
           >
-            <FiCheck size={14} /> Mark as Default
+            <Check size={14} /> Mark as Default
           </button>
         )}
       </div>

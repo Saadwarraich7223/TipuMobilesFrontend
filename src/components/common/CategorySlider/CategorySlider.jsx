@@ -29,7 +29,6 @@ const CategorySlider = () => {
                   md:w-[130px] md:h-[145px]
                   flex flex-col items-center justify-between
                   transition-all duration-300 ease-out
-
                   hover:border-primary/30
                   hover:shadow-lg
                   hover:-translate-y-1
@@ -46,9 +45,11 @@ const CategorySlider = () => {
                   "
                 >
                   <img
-                    src={item.image.url}
+                    src={`https://res.cloudinary.com/dti1kpfhi/image/upload/f_auto,q_auto,w_112,h_112,c_fill/${item.image.public_id}`}
                     alt={item.name}
-                    className="w-10 h-q0 rounded-full md:w-9 md:h-9 object-contain"
+                    className="w-12 h-12 md:w-14 md:h-14 object-contain rounded-full"
+                    width="48" // Explicit width for smaller screens (12 * 4px = 48px)
+                    height="48" // Explicit height for smaller screens (12 * 4px = 48px)
                   />
                 </div>
 

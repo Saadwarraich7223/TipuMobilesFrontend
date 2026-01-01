@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  IoHomeOutline,
-  IoCartOutline,
-  IoHeartOutline,
-  IoLogInOutline,
-} from "react-icons/io5";
+import { useEffect, useState, Fragment } from "react";
+
+import { Home, ShoppingCart, LogIn, Compass } from "lucide-react";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../context/AuthContext";
-import { MdOutlineExplore } from "react-icons/md";
+import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
 
 export default function MobileBottomNav() {
   const navigate = useNavigate();
@@ -20,12 +17,12 @@ export default function MobileBottomNav() {
   }, [location.pathname]);
 
   const navItems = [
-    { label: "Home", icon: IoHomeOutline, path: "/" },
-    { label: "Explore", icon: MdOutlineExplore, path: "/products" },
-    { label: "Cart", icon: IoCartOutline, path: "/cart" },
+    { label: "Home", icon: Home, path: "/" },
+    { label: "Explore", icon: Compass, path: "/products" },
+    { label: "Cart", icon: ShoppingCart, path: "/cart" },
     {
       label: "Account",
-      icon: user ? null : IoLogInOutline, // Show login icon if no user
+      icon: user ? null : LogIn, // Show login icon if no user
       path: "/profile",
     },
   ];
@@ -34,8 +31,11 @@ export default function MobileBottomNav() {
     <>
       {/* Bottom nav */}
       <div
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-        className="w-full sm:hidden select-none   fixed bottom-0 right-0 left-0 pb-safe z-20 flex items-end justify-center"
+        style={{
+          paddingBottom: "env(safe-area-inset-bottom)",
+          height: "80px",
+        }}
+        className="w-full sm:hidden select-none fixed bottom-0 right-0 left-0 pb-safe z-20 flex items-end justify-center"
       >
         <nav className="w-full bg-white rounded-t-xl backdrop-blur-xl border-t border-gray-200 shadow-xl">
           <ul className="relative flex justify-around items-center py-3">
@@ -51,8 +51,8 @@ export default function MobileBottomNav() {
                   : activePath === item.path;
 
               return (
-                <React.Fragment key={item.path}>
-                  <li
+                <Fragment key={item.path}>
+                  <button
                     className="flex cursor-pointer flex-col items-center group relative"
                     onClick={() => navigate(item.path)}
                   >
@@ -64,22 +64,29 @@ export default function MobileBottomNav() {
                       <div
                         className={`relative p-1.5 rounded-xl transition-all duration-300 ${
                           active
-                            ? "bg-primary text-white shadow-lg"
+                            ? "bg-primary/20 text-white shadow-lg"
                             : "bg-transparent group-hover:bg-gray-100"
                         }`}
                       >
                         {item.label === "Account" && user ? (
-                          <img
-                            src={user.avatar?.url}
-                            alt="Avatar"
-                            className="w-6 h-6 rounded-full object-cover"
-                          />
+                          <div className="w-6 h-6">
+                            <img
+                              src={cld(
+                                user.avatar.url,
+                                "f_auto,q_auto,w_96,h_96,c_fill"
+                              )}
+                              alt={user.name}
+                              width="24"
+                              height="24"
+                              className="w-full h-full rounded-full object-cover"
+                            />
+                          </div>
                         ) : (
                           <Icon
                             size={18}
                             className={`transition-colors duration-300 ${
                               active
-                                ? "text-white"
+                                ? "text-primary"
                                 : "text-gray-500 group-hover:text-primary"
                             }`}
                           />
@@ -96,8 +103,8 @@ export default function MobileBottomNav() {
                     >
                       {item.label}
                     </span>
-                  </li>
-                </React.Fragment>
+                  </button>
+                </Fragment>
               );
             })}
           </ul>

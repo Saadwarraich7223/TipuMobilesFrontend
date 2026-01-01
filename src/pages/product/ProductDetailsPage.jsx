@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { MdOutlineShoppingCart } from "react-icons/md";
-import { FaRegHeart, FaStar, FaRegStar } from "react-icons/fa";
-import { IoGitCompareOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -16,14 +14,15 @@ import useCountdown from "../../hooks/useCountDown";
 import { useCart } from "../../context/CartContext";
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
+import { ShoppingCart, Heart, Star } from "lucide-react";
 
 const RatingStars = ({ rating = 0 }) => (
   <div className="flex items-center gap-[2px]">
     {[...Array(5)].map((_, i) =>
       i < rating ? (
-        <FaStar key={i} size={16} className="text-yellow-400" />
+        <Star key={i} fill="yellow" size={16} className="text-yellow-500" />
       ) : (
-        <FaRegStar key={i} size={16} className="text-gray-300" />
+        <Star key={i} size={16} className="text-gray-300" />
       )
     )}
   </div>
@@ -275,10 +274,7 @@ const ProductDetailsPage = () => {
                 <ClipLoader size={14} color="#ffffff" />
               ) : (
                 <>
-                  <MdOutlineShoppingCart
-                    size={20}
-                    className="md:text-sm text-xs"
-                  />
+                  <ShoppingCart size={20} className="md:text-sm text-xs" />
                   Add to Cart
                 </>
               )}
@@ -288,10 +284,7 @@ const ProductDetailsPage = () => {
           {/* Wishlist & Compare */}
           <div className="flex items-center gap-6 mt-2">
             <span className="flex items-center gap-2 cursor-pointer text-gray-600 text-sm font-medium hover:text-primary transition">
-              <FaRegHeart size={18} /> Add to Wishlist
-            </span>
-            <span className="flex items-center gap-2 cursor-pointer text-gray-600 text-sm font-medium hover:text-primary transition">
-              <IoGitCompareOutline size={18} /> Add to Compare
+              <Heart size={18} /> Add to Wishlist
             </span>
           </div>
         </div>

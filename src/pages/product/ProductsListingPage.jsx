@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { IoSearchOutline } from "react-icons/io5";
 
 import ProductsFilter from "../../components/product/ProductsFilter/ProductsFilter";
 import ProductCard from "../../components/common/ProductCard/ProductCard";
@@ -11,6 +10,7 @@ import categoriesApi from "../../api/categories";
 
 import ProductSkeleton from "../../components/layout/ShimmerSkeltons/ProductSkelton";
 import { useAppContext } from "../../context/AppContext";
+import { SearchX } from "lucide-react";
 const DEFAULT_LIMIT = 20;
 const ProductsListingPage = () => {
   const { searchQuery } = useAppContext();
@@ -135,7 +135,7 @@ const ProductsListingPage = () => {
               Array.from({ length: 10 }, (_, i) => <ProductSkeleton key={i} />)
             ) : products.length === 0 ? (
               <div className="col-span-full flex flex-col items-center py-10 text-center">
-                <IoSearchOutline className="text-5xl text-gray-400 mb-3" />
+                <SearchX size={35} className="text-5xl text-gray-400 mb-3" />
 
                 <h3 className="text-lg font-semibold text-gray-700">
                   No Products Found

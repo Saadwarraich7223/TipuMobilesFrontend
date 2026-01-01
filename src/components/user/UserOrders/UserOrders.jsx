@@ -5,7 +5,8 @@ import OrderCard from "./OrderCard";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { normalizeStatus } from "./orders.constants";
 import orderApi from "../../../api/orderApi";
-import { IoChevronBack } from "react-icons/io5";
+import { ChevronLeft } from "lucide-react";
+
 import OrderCardSkeleton from "../../layout/ShimmerSkeltons/OrderCardSkeleton";
 
 export default function UserOrders() {
@@ -42,7 +43,7 @@ export default function UserOrders() {
             onClick={() => navigate("/profile")}
             className="p-2 rounded-full hover:bg-gray-100 transition"
           >
-            <IoChevronBack size={20} className="text-gray-700" />
+            <ChevronLeft size={20} className="text-gray-700" />
           </button>
 
           <div className="flex-1 text-center">

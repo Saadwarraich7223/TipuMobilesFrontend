@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { FiUser, FiPhone, FiMail, FiCamera, FiSave, FiX } from "react-icons/fi";
-import { IoChevronBack } from "react-icons/io5";
+import { useEffect, useState } from "react";
+
+import { User, Phone, Mail, Camera, Save, X, ChevronLeft } from "lucide-react";
+
 import { useAuthContext } from "../../../context/AuthContext";
 import ClipLoader from "react-spinners/ClipLoader";
 import toast from "react-hot-toast";
@@ -98,7 +99,7 @@ export default function EditProfile() {
           onClick={() => navigate("/profile")}
           className="md:hidden p-2 rounded-full hover:bg-gray-100 transition"
         >
-          <IoChevronBack size={24} />
+          <ChevronLeft size={24} />
         </button>
         <div>
           <h1 className="text-2xl font-semibold text-gray-800">Edit Profile</h1>
@@ -120,7 +121,7 @@ export default function EditProfile() {
             htmlFor="avatar-upload"
             className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
           >
-            <FiCamera size={16} />
+            <Camera size={16} />
             <input
               id="avatar-upload"
               type="file"
@@ -136,7 +137,7 @@ export default function EditProfile() {
       <div className="space-y-5">
         {/* Name */}
         <div className="relative">
-          <FiUser
+          <User
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
           />
@@ -155,7 +156,7 @@ export default function EditProfile() {
 
         {/* Email */}
         <div className="relative">
-          <FiMail
+          <Mail
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
           />
@@ -174,7 +175,7 @@ export default function EditProfile() {
 
         {/* Phone */}
         <div className="relative">
-          <FiPhone
+          <Phone
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
           />
@@ -205,7 +206,7 @@ export default function EditProfile() {
             <ClipLoader size={20} color="#fff" />
           ) : (
             <>
-              <FiSave /> Save Changes
+              <Save /> Save Changes
             </>
           )}
         </button>
@@ -214,7 +215,7 @@ export default function EditProfile() {
           onClick={handleReset}
           className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-md font-medium hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
         >
-          <FiX /> Reset
+          <X /> Reset
         </button>
       </div>
     </div>

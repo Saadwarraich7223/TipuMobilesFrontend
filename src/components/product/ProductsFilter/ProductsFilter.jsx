@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import { FiSearch, FiX, FiChevronDown, FiChevronUp } from "react-icons/fi";
-import {
-  MdPhoneAndroid,
-  MdHeadphones,
-  MdBatteryChargingFull,
-  MdCable,
-} from "react-icons/md";
-import { BiSolidShoppingBag } from "react-icons/bi";
+import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 export default function ProductsFilter({ onApply }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,18 +19,6 @@ export default function ProductsFilter({ onApply }) {
     discount: true,
   });
 
-  const categories = [
-    { id: "cases", name: "Phone Cases", icon: <MdPhoneAndroid /> },
-    { id: "chargers", name: "Chargers", icon: <MdBatteryChargingFull /> },
-    { id: "headphones", name: "Headphones", icon: <MdHeadphones /> },
-    { id: "cables", name: "Cables", icon: <MdCable /> },
-    {
-      id: "screen-protectors",
-      name: "Screen Protectors",
-      icon: <BiSolidShoppingBag />,
-    },
-  ];
-
   const brands = [
     "Apple",
     "Samsung",
@@ -54,34 +35,25 @@ export default function ProductsFilter({ onApply }) {
       [section]: !prev[section],
     }));
 
-  const toggleCategory = (id) =>
-    setSelectedCategories((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-
   const toggleBrand = (brand) =>
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((x) => x !== brand) : [...prev, brand]
     );
 
-  // ⭐ APPLY FILTERS → SEND ONLY VALUES USER SELECTED
   const handleApplyFilters = () => {
     const filters = {};
 
-    // if (searchTerm.trim() !== "") filters.search = searchTerm.trim();
     if (selectedBrands.length > 0) filters.brand = selectedBrands.join(",");
-    // if (selectedCategories.length > 0)
-    //   filters.category = selectedCategories.join(",");
+
     if (priceRange[0] > 0) filters.minPrice = priceRange[0];
     if (priceRange[1] < 5000) filters.maxPrice = priceRange[1];
     if (selectedRating) filters.minRating = selectedRating;
     if (freeDelivery) filters.freeDelivery = true;
-    // if (minDiscount > 0) filters.minDiscount = minDiscount;
 
     onApply(filters);
   };
 
-  // ⭐ RESET FILTERS
+  //  RESET FILTERS
   const clearAllFilters = () => {
     setSearchTerm("");
     setSelectedCategories([]);
@@ -105,32 +77,12 @@ export default function ProductsFilter({ onApply }) {
     priceRange[1] < 5000;
 
   return (
-    <div className="w-full bg-white rounded-xl border border-gray-200 ">
+    <div className="w-full bg-white rounded-xl md:mt-4 border border-gray-200 ">
       <div className="px-5 py-4 border-b border-gray-200">
         <h2 className="text-base font-semibold text-gray-800">Filters</h2>
       </div>
 
       <div className="p-5 space-y-6 max-h-[calc(100vh-180px)] overflow-y-auto">
-        {/* Search */}
-        {/* <div className="relative">
-          <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-9 py-2 text-sm border border-gray-200 rounded-lg focus:ring-1 focus:ring-primary"
-          />
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-            >
-              <FiX size={16} />
-            </button>
-          )}
-        </div> */}
-
         {/* Clear Filters */}
         {hasActiveFilters && (
           <button
@@ -141,46 +93,18 @@ export default function ProductsFilter({ onApply }) {
           </button>
         )}
 
-        {/* Category */}
-        {/* <div>
-          <button
-            onClick={() => toggleSection("category")}
-            className="w-full flex justify-between items-center text-sm font-medium text-gray-700 mb-2"
-          >
-            Category{" "}
-            {expandedSections.category ? <FiChevronUp /> : <FiChevronDown />}
-          </button>
-
-          {expandedSections.category && (
-            <div className="space-y-1">
-              {categories.map((cat) => (
-                <label
-                  key={cat.id}
-                  className="flex items-center p-2 text-sm hover:bg-gray-50 rounded-md"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedCategories.includes(cat.id)}
-                    onChange={() => toggleCategory(cat.id)}
-                    className="w-4 h-4 accent-primary"
-                  />
-                  <span className="ml-2 flex items-center gap-2 text-gray-600">
-                    <span className="text-lg text-gray-400">{cat.icon}</span>
-                    {cat.name}
-                  </span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div> */}
-
         {/* Brand */}
         <div>
           <button
             onClick={() => toggleSection("brand")}
             className="w-full flex justify-between items-center text-sm font-medium text-gray-700 mb-2"
           >
-            Brand {expandedSections.brand ? <FiChevronUp /> : <FiChevronDown />}
+            Brand{" "}
+            {expandedSections.brand ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
 
           {expandedSections.brand && (
@@ -210,7 +134,11 @@ export default function ProductsFilter({ onApply }) {
             className="w-full flex justify-between items-center text-sm font-medium text-gray-700 mb-2"
           >
             Price Range{" "}
-            {expandedSections.price ? <FiChevronUp /> : <FiChevronDown />}
+            {expandedSections.price ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
 
           {expandedSections.price && (
@@ -249,7 +177,11 @@ export default function ProductsFilter({ onApply }) {
             className="w-full flex justify-between text-sm font-medium text-gray-700 mb-2"
           >
             Rating{" "}
-            {expandedSections.rating ? <FiChevronUp /> : <FiChevronDown />}
+            {expandedSections.rating ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
 
           {expandedSections.rating && (
@@ -282,7 +214,11 @@ export default function ProductsFilter({ onApply }) {
             className="w-full flex justify-between text-sm font-medium text-gray-700 mb-2"
           >
             Free Delivery{" "}
-            {expandedSections.delivery ? <FiChevronUp /> : <FiChevronDown />}
+            {expandedSections.delivery ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
 
           {expandedSections.delivery && (
@@ -307,7 +243,11 @@ export default function ProductsFilter({ onApply }) {
             className="w-full flex justify-between text-sm font-medium text-gray-700 mb-2"
           >
             Minimum Discount{" "}
-            {expandedSections.discount ? <FiChevronUp /> : <FiChevronDown />}
+            {expandedSections.discount ? (
+              <ChevronUp size={16} />
+            ) : (
+              <ChevronDown size={16} />
+            )}
           </button>
 
           {expandedSections.discount && (

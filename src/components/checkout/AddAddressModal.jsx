@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { IoClose } from "react-icons/io5";
+import { X } from "lucide-react";
 
 const AddAddressModal = ({ onClose, onAddressAdded }) => {
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ const AddAddressModal = ({ onClose, onAddressAdded }) => {
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
         >
-          <IoClose size={24} />
+          <X size={24} />
         </button>
         <h2 className="text-xl font-semibold mb-4">Add New Address</h2>
         <form onSubmit={handleSubmit} className="space-y-2">

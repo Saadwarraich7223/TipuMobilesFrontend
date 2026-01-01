@@ -1,0 +1,34 @@
+# Allow all search engines to crawl the entire site
+User-agent: *
+Disallow: /admin/             # Block the admin panel
+Disallow: /checkout/          # Block the checkout page (shouldn’t be indexed)
+Disallow: /cart/              # Block the shopping cart (shouldn’t be indexed)
+Disallow: /account/           # Block user account pages (shouldn’t be indexed)
+Disallow: /login/             # Block the login page (shouldn’t be indexed)
+Disallow: /register/          # Block the registration page (shouldn’t be indexed)
+Disallow: /order/             # Block order history pages (shouldn’t be indexed)
+Disallow: /wishlist/          # Block wishlist pages (shouldn’t be indexed)
+
+# Allow important eCommerce pages to be crawled
+Allow: /products/             # Allow product pages to be indexed
+Allow: /categories/           # Allow category pages to be indexed
+Allow: /search/               # Allow search result pages (if public) to be indexed
+
+# Block sensitive files or URLs
+Disallow: /private/           # Block any private sections
+Disallow: /tmp/               # Block temporary files
+
+# Sitemap location
+Sitemap:  http://localhost:4173/sitemap.xml  # Replace with your actual sitemap URL
+
+# Crawl delay settings for all bots (optional)
+Crawl-delay: 10              # Suggests a delay of 10 seconds between each request
+
+# Specific bots can have their own rules (optional, based on your needs)
+User-agent: Googlebot
+Disallow: /cart/             # Googlebot will not crawl the cart page
+Disallow: /checkout/         # Googlebot will not crawl the checkout page
+
+User-agent: Bingbot
+Disallow: /private/          # Bingbot won’t crawl private pages
+Allow: /products/            # Bingbot can crawl product pages

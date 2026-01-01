@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
+
 import {
-  FiLock,
-  FiEye,
-  FiEyeOff,
-  FiCheck,
-  FiX,
-  FiAlertCircle,
-} from "react-icons/fi";
-import { IoChevronBack } from "react-icons/io5";
+  Eye,
+  X,
+  EyeOff,
+  Check,
+  AlertCircle,
+  ChevronLeft,
+  Lock,
+} from "lucide-react";
 import { useAuthContext } from "../../../context/AuthContext";
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -107,7 +108,7 @@ export default function ChangePassword() {
           onClick={() => navigate("/profile")}
           className="text-gray-700 md:hidden mr-3 hover:text-primary transition"
         >
-          <IoChevronBack size={24} />
+          <ChevronLeft size={24} />
         </button>
         <div>
           <h1 className="text-xl font-semibold text-gray-800">
@@ -119,14 +120,14 @@ export default function ChangePassword() {
       {error && (
         <div className="mx-4 mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-lg flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <FiAlertCircle size={18} />
+            <AlertCircle size={18} />
             <span className="text-sm">{error}</span>
           </div>
           <button
             onClick={() => setError("")}
             className="text-red-500 hover:text-red-700"
           >
-            <FiX size={18} />
+            <X size={18} />
           </button>
         </div>
       )}
@@ -142,7 +143,7 @@ export default function ChangePassword() {
             Current Password
           </label>
           <div className="relative">
-            <FiLock className="absolute left-3 top-3 text-gray-400" size={18} />
+            <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
               type={showPassword.current ? "text" : "password"}
               id="current"
@@ -156,11 +157,7 @@ export default function ChangePassword() {
               onClick={() => togglePasswordVisibility("current")}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showPassword.current ? (
-                <FiEyeOff size={18} />
-              ) : (
-                <FiEye size={18} />
-              )}
+              {showPassword.current ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
         </div>
@@ -174,7 +171,7 @@ export default function ChangePassword() {
             New Password
           </label>
           <div className="relative">
-            <FiLock className="absolute left-3 top-3 text-gray-400" size={18} />
+            <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
               type={showPassword.new ? "text" : "password"}
               id="new"
@@ -188,7 +185,7 @@ export default function ChangePassword() {
               onClick={() => togglePasswordVisibility("new")}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showPassword.new ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              {showPassword.new ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
 
@@ -204,9 +201,9 @@ export default function ChangePassword() {
                   return (
                     <li key={index} className="flex items-center gap-2 text-sm">
                       {isMet ? (
-                        <FiCheck className="text-green-500" size={14} />
+                        <Check className="text-green-500" size={14} />
                       ) : (
-                        <FiX className="text-gray-400" size={14} />
+                        <X className="text-gray-400" size={14} />
                       )}
                       <span
                         className={`${
@@ -232,7 +229,7 @@ export default function ChangePassword() {
             Confirm New Password
           </label>
           <div className="relative">
-            <FiLock className="absolute left-3 top-3 text-gray-400" size={18} />
+            <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
             <input
               type={showPassword.confirm ? "text" : "password"}
               id="confirm"
@@ -246,23 +243,19 @@ export default function ChangePassword() {
               onClick={() => togglePasswordVisibility("confirm")}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showPassword.confirm ? (
-                <FiEyeOff size={18} />
-              ) : (
-                <FiEye size={18} />
-              )}
+              {showPassword.confirm ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
 
           {/* Validation Texts */}
           {passwords.confirm && passwords.new !== passwords.confirm && (
             <p className="mt-1 text-xs text-red-600 flex items-center gap-1">
-              <FiAlertCircle size={12} /> Passwords do not match
+              <AlertCircle size={12} /> Passwords do not match
             </p>
           )}
           {passwords.confirm && passwords.new === passwords.confirm && (
             <p className="mt-1 text-xs text-green-600 flex items-center gap-1">
-              <FiCheck size={12} /> Passwords match
+              <Check size={12} /> Passwords match
             </p>
           )}
         </div>
@@ -278,7 +271,7 @@ export default function ChangePassword() {
             ) : (
               <div className="flex items-center justify-center gap-2">
                 {" "}
-                <FiCheck size={18} /> Update Password{" "}
+                <Check size={18} /> Update Password{" "}
               </div>
             )}
           </button>
@@ -286,7 +279,7 @@ export default function ChangePassword() {
             onClick={handleReset}
             className="flex-1 cursor-pointer bg-gray-100 text-gray-700 py-2 rounded-md font-medium hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
           >
-            <FiX size={18} />
+            <X size={18} />
             Clear
           </button>
         </div>

@@ -1,5 +1,5 @@
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
 
 const BlogCard = () => {
   return (
@@ -34,7 +34,10 @@ const BlogCard = () => {
 
         <Link to="/">
           <button className="text-[11px] cursor-pointer w-15 sm:text-[13px] md:text-[14px] font-semibold text-primary bg-white hover:bg-primary hover:text-white rounded-full group border border-primary capitalize px-4 sm:px-5 py-1.5 sm:py-2 relative  transition-all">
-            <FiArrowRight className="text-[16px] sm:text-[18px] group-hover:-rotate-45 group-hover:translate-x-1 transition-all duration-500" />
+            <ArrowRight
+              size={16}
+              className="text-[14px] sm:text-[18px] group-hover:-rotate-45 group-hover:translate-x-1 transition-all duration-500"
+            />
             <span className="absolute top-1/2 -translate-y-1/2 right-0 text-[11px] sm:text-[12px] transition-all duration-500 group-hover:right-[-70px] opacity-0 group-hover:opacity-100 font-medium text-gray-900">
               Read More
             </span>

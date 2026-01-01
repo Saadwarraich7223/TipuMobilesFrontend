@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoCloseOutline } from "react-icons/io5";
+
 import { useAppContext } from "../../../context/AppContext";
+import { X } from "lucide-react";
 
 const ProductsMobFilter = ({ onApply }) => {
   const { setShowMobileFilterBox, showMobileFilterBox } = useAppContext();
@@ -68,7 +69,7 @@ const ProductsMobFilter = ({ onApply }) => {
                 onClick={() => setShowMobileFilterBox(false)}
                 className="p-1 rounded-full hover:bg-gray-100"
               >
-                <IoCloseOutline size={20} className="text-gray-600" />
+                <X size={20} className="text-gray-600" />
               </button>
             </div>
 

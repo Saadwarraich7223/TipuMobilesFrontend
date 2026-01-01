@@ -1,5 +1,4 @@
-import React from "react";
-import { IoClose } from "react-icons/io5";
+import { X } from "lucide-react";
 
 export default function SlideOver({ open, title, children, onClose }) {
   return (
@@ -27,7 +26,7 @@ export default function SlideOver({ open, title, children, onClose }) {
             onClick={onClose}
             className="rounded-md p-2 hover:bg-gray-100"
           >
-            <IoClose size={22} />
+            <X size={22} />
           </button>
         </div>
 

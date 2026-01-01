@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { IoCloseSharp } from "react-icons/io5";
 import { useAppContext } from "../../../context/AppContext";
 import { useParams } from "react-router-dom";
+import { X, ChevronDown } from "lucide-react";
 
 const CategoryItem = ({ category, level = 0 }) => {
   const { navigate, setIsSideBarOpen } = useAppContext();
@@ -33,9 +32,9 @@ const CategoryItem = ({ category, level = 0 }) => {
           {category.name}
         </span>
         {category.children?.length > 0 && (
-          <IoIosArrowDown
-            size={15}
-            className={`transition-transform duration-300 ${
+          <ChevronDown
+            size={16}
+            className={`transition-transform font-bold duration-300 ${
               isOpen ? "rotate-180 " : ""
             } `}
           />
@@ -74,10 +73,11 @@ const CetgorySideBar = () => {
           Shop by Categories
         </h2>
         <button
+          aria-label="Close"
           onClick={() => setIsSideBarOpen(false)}
           className="text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
         >
-          <IoCloseSharp size={24} />
+          <X size={24} />
         </button>
       </div>
 

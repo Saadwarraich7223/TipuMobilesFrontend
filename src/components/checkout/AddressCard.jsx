@@ -1,17 +1,18 @@
-import React from "react";
-import { FaHome, FaBuilding, FaMapMarkerAlt, FaPhoneAlt } from "react-icons/fa";
+import { BriefcaseBusiness, Home, MapPin, Phone } from "lucide-react";
 
-// Map address type to icon and color
 const getAddressTypeDetails = (type) => {
   switch (type) {
     case "Home":
-      return { icon: <FaHome />, color: "bg-green-100 text-green-700" };
+      return { icon: <Home size={16} />, color: "bg-green-100 text-green-700" };
     case "Work":
-      return { icon: <FaBuilding />, color: "bg-blue-100 text-blue-700" };
+      return {
+        icon: <BriefcaseBusiness size={16} />,
+        color: "bg-blue-100 text-blue-700",
+      };
     case "Other":
-      return { icon: <FaMapMarkerAlt />, color: "bg-gray-100 text-gray-700" };
+      return { icon: <MapPin size={16} />, color: "bg-gray-100 text-gray-700" };
     default:
-      return { icon: <FaMapMarkerAlt />, color: "bg-gray-100 text-gray-700" };
+      return { icon: <MapPin size={16} />, color: "bg-gray-100 text-gray-700" };
   }
 };
 
@@ -55,7 +56,7 @@ const AddressCard = ({ address, selected, onSelect }) => {
 
       {/* Contact Info */}
       <div className="flex items-center text-gray-600 text-sm gap-2">
-        <FaPhoneAlt className="text-gray-400" />
+        <Phone className="text-gray-400" size={12} />
         <span>{address.phone}</span>
       </div>
     </div>

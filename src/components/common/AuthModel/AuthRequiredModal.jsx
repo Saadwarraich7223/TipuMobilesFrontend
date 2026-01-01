@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { IoClose, IoCheckmarkCircleOutline } from "react-icons/io5";
+
+import { X, CircleCheck } from "lucide-react";
 
 const benefits = [
   "Track your orders in real-time",
@@ -36,7 +37,7 @@ const AuthRequiredModal = ({ isOpen, onClose, onLogin, onRegister }) => {
                 onClick={onClose}
                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
               >
-                <IoClose size={20} />
+                <X size={20} />
               </button>
 
               {/* Header */}
@@ -54,7 +55,7 @@ const AuthRequiredModal = ({ isOpen, onClose, onLogin, onRegister }) => {
                     key={index}
                     className="flex items-center gap-2 text-sm text-gray-700"
                   >
-                    <IoCheckmarkCircleOutline className="text-green-500" />
+                    <CircleCheck className="text-green-500" />
                     {benefit}
                   </div>
                 ))}

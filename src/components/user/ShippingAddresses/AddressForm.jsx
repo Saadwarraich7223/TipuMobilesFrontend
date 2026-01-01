@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { FiCheck, FiX, FiHome } from "react-icons/fi";
+import { useState } from "react";
+
+import { Check, Home, X } from "lucide-react";
 import inputFields from "./inputs";
 import toast from "react-hot-toast";
 
@@ -66,7 +67,7 @@ export default function AddressForm({
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 mb-2">
       <h2 className="text-lg font-semibold flex items-center gap-2 mb-6 text-gray-800">
-        <FiHome className="text-primary" />
+        <Home className="text-primary" />
         {editingId ? "Edit Address" : "Add New Address"}
       </h2>
 
@@ -132,7 +133,7 @@ export default function AddressForm({
           disabled={submitting}
           className="flex-1 bg-primary text-white py-3 rounded-md flex items-center justify-center gap-2 hover:bg-primary/90 transition disabled:opacity-60"
         >
-          <FiCheck /> {editingId ? "Update Address" : "Save Address"}
+          <Check /> {editingId ? "Update Address" : "Save Address"}
         </button>
 
         <button
@@ -140,7 +141,7 @@ export default function AddressForm({
           disabled={submitting}
           className="flex-1 bg-gray-100 flex items-center justify-center gap-2 py-3 rounded-md hover:bg-gray-200 transition disabled:opacity-60"
         >
-          <FiX /> Cancel
+          <X /> Cancel
         </button>
       </div>
     </div>

@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub, FaFacebookF } from "react-icons/fa";
+
 import { useAppContext } from "../../../context/AppContext";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Eye, EyeOff, Globe } from "lucide-react";
 
 const SignUpForm = ({ mode, formData, onSubmit, isLoading, setFormData }) => {
   const { navigate } = useAppContext();
@@ -120,11 +119,7 @@ const SignUpForm = ({ mode, formData, onSubmit, isLoading, setFormData }) => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
                 >
-                  {showPassword ? (
-                    <AiOutlineEyeInvisible size={18} />
-                  ) : (
-                    <AiOutlineEye size={18} />
-                  )}
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               </div>
             </div>
@@ -149,17 +144,16 @@ const SignUpForm = ({ mode, formData, onSubmit, isLoading, setFormData }) => {
             <p className="text-center text-sm text-gray-500 mb-3">
               Or continue with
             </p>
-            <div className="flex justify-center gap-4">
-              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 hover:shadow-md transition">
-                <FcGoogle size={18} />
-              </button>
-              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 hover:shadow-md transition">
-                <FaGithub size={18} className="text-gray-700" />
-              </button>
-              <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 hover:shadow-md transition">
-                <FaFacebookF size={18} className="text-blue-600" />
-              </button>
-            </div>
+
+            <button
+              type="button"
+              title="Sign up with Google"
+              aria-label="Sign up with Google"
+              className="flex items-center text-primary justify-center w-full gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-xl border border-gray-300 hover:shadow-md transition-all duration-200 bg-white  font-medium text-sm sm:text-base"
+            >
+              <Globe className="text-blue-500" size={24} /> {/* Google icon */}
+              Sign up with Google
+            </button>
 
             <p className="text-center text-sm text-gray-500 mt-4">
               {mode === "login"

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import StatusBadge from "./StatusBadge";
 import OrderItemPreview from "./OrderItemPreview";
-import { FiX } from "react-icons/fi";
+import { X } from "lucide-react";
 
 const OrderDetailsModal = ({ order, onClose }) => {
   const [visible, setVisible] = useState(false);
@@ -28,7 +28,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
   return (
     <div
-      className={`fixed  inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
+      className={`xed  inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}
@@ -60,7 +60,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
             onClick={handleClose}
             className="rounded-full p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition"
           >
-            <FiX size={20} />
+            <X size={20} />
           </button>
         </div>
 

@@ -1,13 +1,8 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  IoCheckmarkCircle,
-  IoBagCheckOutline,
-  IoDownloadOutline,
-  IoLogoWhatsapp,
-  IoCheckmarkCircleOutline,
-} from "react-icons/io5";
-import { useEffect, useState } from "react";
+
+import { Handbag, Download, MessageSquare, CheckCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 
 const STATUS_STEPS = ["confirmed", "processing", "shipped", "delivered"];
@@ -72,7 +67,7 @@ const OrderSubmitted = () => {
           {/* LEFT — SUCCESS + STATUS */}
           <div className="lg:col-span-3 p-8 sm:p-10 lg:p-14">
             <div className="flex justify-center mb-4">
-              <IoCheckmarkCircleOutline size={70} className="text-green-500" />
+              <CheckCircle size={70} className="text-green-500" />
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
@@ -144,7 +139,7 @@ const OrderSubmitted = () => {
                 onClick={() => navigate(`/orders/${order._id}`)}
                 className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-white font-medium hover:opacity-90"
               >
-                <IoBagCheckOutline />
+                <Handbag />
                 Track order
               </button>
 
@@ -152,7 +147,7 @@ const OrderSubmitted = () => {
                 onClick={downloadInvoice}
                 className="w-full flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-4 py-3 font-medium hover:bg-white"
               >
-                <IoDownloadOutline />
+                <Download />
                 Download invoice
               </button>
 
@@ -162,7 +157,7 @@ const OrderSubmitted = () => {
                 rel="noreferrer"
                 className="w-full flex items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-3 text-white font-medium hover:bg-green-600"
               >
-                <IoLogoWhatsapp />
+                <MessageSquare />
                 WhatsApp confirmation
               </a>
             </div>

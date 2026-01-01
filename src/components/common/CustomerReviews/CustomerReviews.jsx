@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
-import { FaStar } from "react-icons/fa";
-import reviewApi from "../../../api/reviewApi";
 
-// Format date (Nov 23, 2025)
-const formatDate = (date) => {
-  return new Date(date).toLocaleDateString("en-US", {
+import reviewApi from "../../../api/reviewApi";
+import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
+import { Star } from "lucide-react";
+
+// Format date like "Nov 23, 2025"
+const formatDate = (date) =>
+  new Date(date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-};
 
 // Skeleton loader for smooth UI
 const ReviewSkeleton = () => (
-  <div className="bg-gray-100 animate-pulse p-5 rounded-xl shadow-md">
-    <div className="h-4 bg-gray-300 rounded w-24 mb-3"></div>
+  <div className="bg-gray-50 animate-pulse p-6 rounded-2xl shadow-md">
+    <div className="h-5 bg-gray-300 rounded w-24 mb-4"></div>
     <div className="h-3 bg-gray-300 rounded w-full mb-2"></div>
-    <div className="h-3 bg-gray-300 rounded w-3/4 mb-4"></div>
+    <div className="h-3 bg-gray-300 rounded w-5/6 mb-6"></div>
 
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-      <div>
-        <div className="h-3 bg-gray-300 rounded w-20 mb-2"></div>
-        <div className="h-3 bg-gray-300 rounded w-16"></div>
+    <div className="flex items-center gap-4">
+      <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+      <div className="flex-1">
+        <div className="h-3 bg-gray-300 rounded w-28 mb-2"></div>
+        <div className="h-3 bg-gray-300 rounded w-20"></div>
       </div>
     </div>
   </div>
@@ -41,10 +42,7 @@ const CustomerReviews = () => {
     try {
       setLoading(true);
       const res = await reviewApi.getTopReviews();
-
-      if (res?.reviews) {
-        setReviews(res.reviews);
-      }
+      if (res?.reviews) setReviews(res.reviews);
     } catch (error) {
       console.log("Error fetching reviews:", error);
     } finally {
@@ -59,15 +57,15 @@ const CustomerReviews = () => {
   const topReviews = reviews.slice(0, 10);
 
   return (
-    <section className="bg-white py-10 border-t border-gray-100">
+    <section className="py-12 border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
           Customer Reviews
         </h2>
 
         {/* Loading Skeletons */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
             {[1, 2, 3].map((i) => (
               <ReviewSkeleton key={i} />
             ))}
@@ -76,7 +74,7 @@ const CustomerReviews = () => {
 
         {/* No Reviews */}
         {!loading && topReviews.length === 0 && (
-          <p className="text-gray-500">No reviews available.</p>
+          <p className="text-gray-500 text-center">No reviews available.</p>
         )}
 
         {/* Swiper Slider */}
@@ -85,7 +83,7 @@ const CustomerReviews = () => {
             slidesPerView={1}
             spaceBetween={25}
             pagination={{ clickable: true }}
-            autoplay={{ delay: 3000 }}
+            autoplay={{ delay: 3500 }}
             breakpoints={{
               640: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
@@ -99,34 +97,39 @@ const CustomerReviews = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.6,
-                    delay: index * 0.15, // ⭐ Stagger fade-in animation
+                    delay: index * 0.15,
                   }}
-                  className="bg-white border border-gray-200 p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+                  className="bg-white border border-gray-200 p-6 rounded-2xl  transition-shadow duration-300 flex flex-col justify-between h-full"
                 >
                   {/* Rating Stars */}
-                  <div className="flex gap-1 mb-3">
+                  <div className="flex gap-1 mb-4">
                     {Array.from({ length: review.rating }).map((_, i) => (
-                      <FaStar
+                      <Star
                         key={i}
-                        className="text-yellow-400 text-lg drop-shadow-sm"
+                        size={20}
+                        fill="yellow"
+                        className="text-yellow-500 drop-shadow-sm"
                       />
                     ))}
                   </div>
 
                   {/* Review Text */}
-                  <p className="text-gray-700 text-sm leading-relaxed mb-4 line-clamp-4">
+                  <p className="text-gray-700 text-sm leading-relaxed mb-6 line-clamp-5">
                     {review.comment || review.title}
                   </p>
 
                   {/* User Info */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-4 mt-auto">
                     <img
-                      src={review.user?.avatar?.url || "/default-user.png"}
-                      className="w-10 h-10 rounded-full object-cover shadow-sm"
-                      alt="user"
+                      src={cld(
+                        review.user.avatar.url,
+                        "f_auto,q_auto,w_96,h_96,c_fill"
+                      )}
+                      alt={review.user?.name || "User"}
+                      className="w-12 h-12 rounded-full object-cover border border-gray-200"
                     />
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-800">
+                      <h4 className="text-sm font-semibold text-gray-900">
                         {review.user?.name || "Unknown User"}
                       </h4>
                       <p className="text-xs text-gray-500">

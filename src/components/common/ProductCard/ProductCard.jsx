@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { IoGitCompareOutline } from "react-icons/io5";
-import { MdZoomOutMap, MdOutlineShoppingCart } from "react-icons/md";
+import { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
-import { useAppContext } from "../../../context/AppContext";
-import ProductShortView from "../../product/ProductShortView";
 import { useCart } from "../../../context/CartContext";
 import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
-import useCountdown from "../../../hooks/useCountDown";
-
 import { useAuthContext } from "../../../context/AuthContext";
 
+import useCountdown from "../../../hooks/useCountDown";
+import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
+import { Heart, ShoppingCart } from "lucide-react";
+
 const ProductCard = ({ product }) => {
-  const { setShowProductView } = useAppContext();
   const { addOrRemoveFromWishList, wishList, isLoggedIn } = useAuthContext();
   const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
@@ -28,15 +25,12 @@ const ProductCard = ({ product }) => {
       setIsFlashSaleActive(currentTime < flashSaleEndTime);
     };
 
-    // Check flash sale status when component mounts
     checkFlashSaleStatus();
 
-    // Optionally, you can check periodically (e.g., every 1 minute)
     const interval = setInterval(() => {
       checkFlashSaleStatus();
-    }, 60000); // Check every 60 seconds
+    }, 60000);
 
-    // Clean up interval on unmount
     return () => clearInterval(interval);
   }, [product.flashSaleEndTime]);
 
@@ -65,7 +59,6 @@ const ProductCard = ({ product }) => {
 
   const { hours, minutes, seconds } = useCountdown(product.flashSaleEndTime);
 
-  // Calculate dynamic discount percentage
   const getDiscountPercentage = () => {
     if (product.isInFlashSale && product.salePrice) {
       return Math.round(
@@ -84,23 +77,30 @@ const ProductCard = ({ product }) => {
     <>
       {product && (
         <div
-          className="
-        flex flex-col bg-white group rounded-lg border border-gray-300
+          className="flex min-h-[320px] flex-col bg-white group rounded-lg border border-gray-300
         shadow-md hover:shadow-xl hover:-translate-y-1 hover:shadow-primary/30
-        transition-all duration-300 overflow-hidden w-full max-w-[350px] mx-auto
-      "
+        transition-all duration-300 overflow-hidden w-full max-w-[350px] mx-auto"
         >
           {/* --- Image Section --- */}
           <div className="relative overflow-hidden flex-shrink-0">
             <Link to={`/product/${product._id}`}>
               <div className="aspect-[1/1.1] w-full relative">
                 <img
-                  src={product?.images?.[0]}
+                  src={cld(
+                    product?.images?.[0],
+                    "f_auto,q_auto,w_400,h_400,c_fill"
+                  )}
                   alt="Product front"
+                  width="360"
+                  height="360"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <img
-                  src={product?.images?.[1] || product?.images?.[0]}
+                  src={cld(
+                    product?.images?.[1] || product?.images?.[0],
+                    "f_auto,q_auto,w_400,h_400,c_fill"
+                  )}
+                  loading="lazy"
                   alt="Product hover"
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                 />
@@ -138,19 +138,6 @@ const ProductCard = ({ product }) => {
             {/* Hover Actions */}
             <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex flex-col gap-1 sm:gap-2  transition-all duration-500">
               <button
-                onClick={() => setShowProductView(true)}
-                className="w-8 h-8 sm:w-9 sm:h-9 hidden md:flex items-center justify-center rounded-full bg-white text-gray-700 hover:bg-primary hover:text-white shadow-md transition"
-                title="Quick View"
-              >
-                <MdZoomOutMap size={16} className="sm:size-[18px]" />
-              </button>
-              <button
-                className="w-8 hidden h-8 cursor-pointer sm:w-9 sm:h-9  items-center justify-center rounded-full bg-white text-gray-700 hover:bg-primary hover:text-white shadow-md transition"
-                title="Compare"
-              >
-                <IoGitCompareOutline size={16} className="sm:size-[18px]" />
-              </button>
-              <button
                 onClick={handleToggleProductWishlist}
                 title={
                   isInWishList ? "Remove from Wishlist" : "Add to Wishlist"
@@ -168,15 +155,14 @@ const ProductCard = ({ product }) => {
       `}
               >
                 {isInWishList ? (
-                  <FaHeart
+                  <Heart
                     size={22}
+                    color="red"
+                    fill="red"
                     className="transition-colors duration-300"
                   />
                 ) : (
-                  <FaRegHeart
-                    size={22}
-                    className="transition-colors duration-300"
-                  />
+                  <Heart size={22} className="transition-colors duration-300" />
                 )}
               </button>
             </div>
@@ -247,7 +233,7 @@ const ProductCard = ({ product }) => {
                 <ClipLoader size={20} className="text-gray-800" />
               ) : (
                 <>
-                  <MdOutlineShoppingCart size={16} className="sm:size-[18px]" />
+                  <ShoppingCart size={16} className="sm:size-[18px]" />
                   Add to Cart
                 </>
               )}
@@ -255,7 +241,6 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
       )}
-      <ProductShortView />
     </>
   );
 };

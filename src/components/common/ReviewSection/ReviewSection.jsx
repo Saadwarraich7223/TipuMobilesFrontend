@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
-import { FaStar, FaRegStar } from "react-icons/fa";
 import reviewApi from "../../../api/reviewApi";
 import { useParams } from "react-router-dom";
 import ReviewSkeleton from "../../layout/ShimmerSkeltons/ReviewSkelton";
 import { toast } from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Star } from "lucide-react";
 
 const RatingStars = ({ rating = 0 }) => (
   <div className="flex items-center gap-[2px]">
     {[...Array(5)].map((_, i) =>
       i < rating ? (
-        <FaStar key={i} size={16} className="text-yellow-400" />
+        <Star fill="yellow" key={i} size={16} className="text-yellow-500" />
       ) : (
-        <FaRegStar key={i} size={16} className="text-gray-300" />
+        <Star key={i} size={16} className="text-gray-300" />
       )
     )}
   </div>
@@ -182,9 +182,9 @@ const ReviewsSection = () => {
                 onClick={() => setReviewForm({ ...reviewForm, rating: star })}
               >
                 {star <= reviewForm.rating ? (
-                  <FaStar className="text-yellow-400" />
+                  <Star fill="yellow" className="text-yellow-500" />
                 ) : (
-                  <FaRegStar className="text-gray-300" />
+                  <Star className="text-gray-300" />
                 )}
               </button>
             ))}
