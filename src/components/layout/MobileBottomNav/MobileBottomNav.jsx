@@ -37,8 +37,8 @@ export default function MobileBottomNav() {
         }}
         className="w-full sm:hidden select-none fixed bottom-0  right-0 left-0 pb-safe z-20 flex items-end justify-center"
       >
-        <nav className="w-full bg-white rounded-b-xl backdrop-blur-xl border border-gray-200 shadow-xl">
-          <ul className="relative  overflow-hidden flex justify-around items-center py-3">
+        <nav className="w-full  rounded-sm backdrop-blur-xl border px-1 py-2 pb-0 border-gray-200 shadow-xl">
+          <ul className="relative  overflow-hidden flex justify-around bg-white shadow px-1  mb-2 py-4 rounded-xl   w-full items-center ">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active =
@@ -53,55 +53,47 @@ export default function MobileBottomNav() {
               return (
                 <Fragment key={item.path}>
                   <button
-                    className="flex cursor-pointer flex-col items-center group relative"
+                    className="flex cursor-pointer  flex-col items-center group relative"
                     onClick={() => navigate(item.path)}
                   >
                     {active && (
                       <span className="absolute  -top-6   h-20 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
                     )}
                     {active && (
-                      <span className="absolute -top-[13.5px] h-[4px] w-12 rounded-full bg-primary" />
+                      <span className="absolute -top-[15px] h-[4px] w-12 rounded-full bg-primary" />
                     )}
                     <div
                       className={`relative transition-all duration-300 ${
                         active ? "scale-110" : "group-hover:scale-105"
                       }`}
                     >
-                      <div
-                        className={`relative p-1.5 rounded-xl transition-all duration-300 ${
-                          active
-                            ? " text-white "
-                            : "bg-transparent group-hover:bg-gray-100"
-                        }`}
-                      >
-                        {item.label === "Account" && user ? (
-                          <div className="w-[18px] h-[18px]">
-                            <img
-                              src={cld(
-                                user.avatar.url,
-                                "f_auto,q_auto,w_96,h_96,c_fill"
-                              )}
-                              alt={user.name}
-                              width="18"
-                              height="18"
-                              className="w-full h-full rounded-full object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <Icon
-                            size={18}
-                            className={`transition-colors duration-300 ${
-                              active
-                                ? "text-primary"
-                                : "text-gray-500 group-hover:text-primary"
-                            }`}
+                      {item.label === "Account" && user ? (
+                        <div className="w-[24px] h-[24px]">
+                          <img
+                            src={cld(
+                              user.avatar.url,
+                              "f_auto,q_auto,w_96,h_96,c_fill"
+                            )}
+                            alt={user.name}
+                            width="24"
+                            height="24"
+                            className="w-full h-full rounded-full object-cover"
                           />
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        <Icon
+                          size={24}
+                          className={`transition-colors duration-300 ${
+                            active
+                              ? "text-primary"
+                              : "text-gray-500 group-hover:text-primary"
+                          }`}
+                        />
+                      )}
                     </div>
 
                     <span
-                      className={`text-[9px] mt-0.5 font-medium transition-all duration-300 ${
+                      className={`text-[9px] mt-1 font-medium transition-all duration-300 ${
                         active
                           ? "text-primary"
                           : "text-gray-500 group-hover:text-gray-700"
@@ -115,9 +107,9 @@ export default function MobileBottomNav() {
             })}
           </ul>
 
-          <div className="flex justify-center pb-1">
+          {/* <div className="flex justify-center pb-1">
             <div className="w-24 h-1 bg-gray-300 rounded-full"></div>
-          </div>
+          </div> */}
         </nav>
       </div>
     </>

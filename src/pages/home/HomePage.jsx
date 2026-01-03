@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { lazy } from "react";
-
+import { useEffect, useState, lazy } from "react";
 import MainBanner from "../../components/common/Banners/MainBanner";
+import LazySection from "../../components/common/Lazysection/LazySection";
+import flashSalesApi from "../../api/flashSales";
 
 const CategorySlider = lazy(() =>
   import("../../components/common/CategorySlider/CategorySlider")
@@ -15,58 +15,49 @@ const TopRatedProducts = lazy(() =>
 const CustomerReviews = lazy(() =>
   import("../../components/common/CustomerReviews/CustomerReviews")
 );
-
 const FlashSale = lazy(() =>
   import("../../components/common/FlashSaleCard/FlashSale")
 );
 
-import flashSalesApi from "../../api/flashSales";
-import LazySection from "../../components/common/Lazysection/LazySection";
-
 const HomePage = () => {
-  const [flashSales, setFlashSales] = useState([]);
-  const [activeFlashSales, setActiveFlashSales] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [activeSale, setActiveSale] = useState(null);
+  const [loadFlashSale, setLoadFlashSale] = useState(false);
 
   useEffect(() => {
+    requestIdleCallback(() => {
+      setLoadFlashSale(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!loadFlashSale) return;
+
     const fetchFlashSale = async () => {
       try {
         const res = await flashSalesApi.getFlashSales();
-        setFlashSales(res);
+        const now = Date.now();
+
+        const active = res.find(
+          (sale) => new Date(sale.endTime).getTime() > now
+        );
+
+        setActiveSale(active || null);
       } catch (err) {
         console.error("Flash sale fetch failed:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchFlashSale();
-  }, []);
-
-  useEffect(() => {
-    const filterActiveSales = () => {
-      const now = new Date();
-      const active = flashSales.filter((sale) => new Date(sale.endTime) > now);
-      setActiveFlashSales(active);
-    };
-
-    filterActiveSales(); // initial run
-    const interval = setInterval(filterActiveSales, 10000);
-    return () => clearInterval(interval);
-  }, [flashSales]);
+  }, [loadFlashSale]);
 
   return (
-    <div className="overflow-hidden">
+    <>
       <MainBanner />
 
-      {activeFlashSales.length === 0 ? (
-        <></>
-      ) : (
-        activeFlashSales.map((sale) => (
-          <LazySection>
-            <FlashSale key={sale._id} sale={sale} loading={loading} />
-          </LazySection>
-        ))
+      {loadFlashSale && activeSale && (
+        <LazySection minHeight={420}>
+          <FlashSale sale={activeSale} />
+        </LazySection>
       )}
 
       <LazySection minHeight={180}>
@@ -84,7 +75,7 @@ const HomePage = () => {
       <LazySection minHeight={320}>
         <CustomerReviews />
       </LazySection>
-    </div>
+    </>
   );
 };
 

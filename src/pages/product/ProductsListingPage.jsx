@@ -63,6 +63,7 @@ const ProductsListingPage = () => {
       const query = buildQuery();
 
       const res = await categoriesApi.getProductsByCategory(slug, query);
+      console.log(res);
 
       setProducts(res.products || []);
       setTotalPages(Math.ceil((res.total || 0) / DEFAULT_LIMIT));

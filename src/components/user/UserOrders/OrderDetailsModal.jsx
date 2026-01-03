@@ -28,7 +28,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
   return (
     <div
-      className={`xed  inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
+      className={`fixed  inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4 transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}

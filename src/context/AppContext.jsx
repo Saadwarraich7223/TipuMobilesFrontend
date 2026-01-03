@@ -30,7 +30,7 @@ export const AppContextProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await categoriesApi.getCategoriesTree();
-
+      console.log(res);
       setCategories(res.data);
     } catch (error) {
       console.log(error);
