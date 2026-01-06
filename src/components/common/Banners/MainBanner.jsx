@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import bannersApi from "../../../api/bannersApi";
 import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
+import { useBanners } from "../../../queries/banners";
 
 const FALLBACK_LCP_IMAGE =
   "https://res.cloudinary.com/dti1kpfhi/image/upload/f_auto,q_auto,w_1200/banner/rok6xnrhdqbvyo2ot8rc.webp";
@@ -14,19 +14,11 @@ const runWhenIdle = (cb) => {
 };
 
 const MainBanner = () => {
-  const [banners, setBanners] = useState([]);
+  const filters = { position: "top", isActive: true };
+  const { data: banners = [], isLoading } = useBanners(filters);
   const [Swiper, setSwiper] = useState(null);
   const [SwiperSlide, setSwiperSlide] = useState(null);
   const [swiperModules, setSwiperModules] = useState([]);
-
-  useEffect(() => {
-    runWhenIdle(() => {
-      bannersApi
-        .get("/", { params: { position: "top", isActive: true } })
-        .then((res) => setBanners(res.data || []))
-        .catch(console.error);
-    });
-  }, []);
 
   useEffect(() => {
     if (!banners.length) return;
@@ -68,7 +60,7 @@ const MainBanner = () => {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           pagination={{ clickable: true, dynamicBullets: true }}
           modules={swiperModules}
-          className="mt-3"
+          className=""
         >
           {banners.map((banner, i) => (
             <SwiperSlide key={banner._id || i}>

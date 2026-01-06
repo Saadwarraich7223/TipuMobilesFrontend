@@ -82,7 +82,6 @@ const CartContextProvider = ({ children }) => {
     }
   };
   const removeItem = async ({ productId }) => {
-    console.log(productId);
     try {
       setLoading(true);
       const res = await cartApi.removeItem({ data: { productId } });

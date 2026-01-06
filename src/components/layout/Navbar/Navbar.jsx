@@ -136,7 +136,7 @@ const Navbar = () => {
   const { setSearchQuery } = useAppContext();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const location = useLocation().pathname.includes("products");
+  const isProductsPage = useLocation().pathname.includes("products");
 
   useEffect(() => {
     const listen = () => setIsScrolled(window.scrollY > 5);
@@ -149,90 +149,93 @@ const Navbar = () => {
       className={`w-full sticky px-1 top-0 z-50 bg-white transition shadow-sm 
         ${isScrolled ? "shadow-md" : ""}`}
     >
-      <div className="md:px-4 py-3 flex items-center justify-between">
-        {/* LEFT — Menu + Logo */}
-        <div className="flex items-center gap-3">
-          <button
-            aria-label="Open Sidebar"
-            title="Shop By Categories"
-            onClick={() => setIsSideBarOpen(!isSideBarOpen)}
-            className="cursor-pointer text-gray-700"
-          >
-            {isSideBarOpen ? (
-              <X size={24} />
-            ) : (
-              <Menu size={24} className="text-gray-700" />
-            )}
-          </button>
-
-          <MobileSidebar isOpen={isSideBarOpen} setIsOpen={setIsSideBarOpen} />
-
-          {/* Gradient Logo */}
-          <Link
-            to="/"
-            aria-label="Home"
-            className="font-bold text-xl bg-gradient-to-r from-gray-900 via-purple-500 to-purple-400 bg-clip-text text-transparent"
-          >
-            Tipu Mobiles
-          </Link>
-        </div>
+      {!isProductsPage && (
         <div
-          className="
-      md:flex items-center min-w-[30%] hidden bg-white border border-gray-300 rounded-lg px-4 py-2
-      w-[40%]] 
-    "
+          className={`md:px-4 max-h-24 min-h-16 flex items-center justify-between
+    transition-all duration-100 ease-in-out`}
         >
-          <Search size={20} className="text-gray-500" />
-          <input
-            type="text"
-            placeholder="Search here"
-            className=" px-3 outline-none text-sm text-gray-700"
-          />
-        </div>
+          {/* LEFT — Menu + Logo */}
+          <div className="flex items-center gap-3">
+            <button
+              aria-label="Open Sidebar"
+              title="Shop By Categories"
+              onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+              className="cursor-pointer text-gray-700"
+            >
+              {isSideBarOpen ? (
+                <X size={24} />
+              ) : (
+                <Menu size={24} className="text-gray-700" />
+              )}
+            </button>
 
-        {/* RIGHT — Icons */}
-        <div className="flex items-center gep-2 md:gap-4">
-          <div
-            className="hidden md:flex
-          "
-          >
-            {loadingUser ? (
-              <ClipLoader size={22} color="#000" />
-            ) : (
-              <UserMenu user={user} navigate={navigate} logout={logout} />
-            )}
+            <MobileSidebar
+              isOpen={isSideBarOpen}
+              setIsOpen={setIsSideBarOpen}
+            />
+
+            {/* Gradient Logo */}
+            <Link
+              to="/"
+              aria-label="Home"
+              className="font-bold text-xl bg-gradient-to-r from-gray-900 via-purple-500 to-purple-400 bg-clip-text text-transparent"
+            >
+              Tipu Mobiles
+            </Link>
+          </div>
+          <div className="md:flex items-center min-w-[30%] hidden bg-white border border-gray-300 rounded-lg px-4 py-2 w-[40%]">
+            <Search size={20} className="text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search here"
+              className=" px-3 outline-none text-sm text-gray-700"
+            />
           </div>
 
-          <button
-            aria-label="Favorite Items List"
-            title="Favorite Items"
-            className="  text-gray-700 mr-2 cursor-pointer transition-all active:scale-95"
-          >
-            <Link to="/profile/wishlist" aria-label="Go to wishlist">
-              <Heart size={21} className="text-gray-600" />
-            </Link>
-          </button>
+          {/* RIGHT — Icons */}
+          <div className="flex items-center gep-2 md:gap-4">
+            <div
+              className="hidden md:flex
+          "
+            >
+              {loadingUser ? (
+                <ClipLoader size={22} color="#000" />
+              ) : (
+                <UserMenu user={user} navigate={navigate} logout={logout} />
+              )}
+            </div>
 
-          {/* Cart Primary */}
-          <button
-            aria-label="Go to Cart"
-            title="Your Cart"
-            onClick={() => {
-              if (window.innerWidth < 768) {
-                navigate("/cart"); // Mobile → Navigate
-              } else {
-                setShowCartSidebar(true); // Desktop → Open sidebar
-              }
-            }}
-            className="text-gray-700 cursor-pointer active:scale-95"
-          >
-            <ShoppingCart size={24} className="text-gray-600" />
-          </button>
+            <button
+              aria-label="Favorite Items List"
+              title="Favorite Items"
+              className="  text-gray-700 mr-2 cursor-pointer transition-all active:scale-95"
+            >
+              <Link to="/profile/wishlist" aria-label="Go to wishlist">
+                <Heart size={21} className="text-gray-600" />
+              </Link>
+            </button>
+
+            {/* Cart Primary */}
+            <button
+              aria-label="Go to Cart"
+              title="Your Cart"
+              onClick={() => {
+                if (window.innerWidth < 768) {
+                  navigate("/cart"); // Mobile → Navigate
+                } else {
+                  setShowCartSidebar(true); // Desktop → Open sidebar
+                }
+              }}
+              className="text-gray-700 cursor-pointer active:scale-95"
+            >
+              <ShoppingCart size={24} className="text-gray-600" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       {/* Search Bar */}
-      {location && (
-        <div className="md:px-4 pb-4 flex md:hidden items-center w-full justify-center gap-2">
+      {isProductsPage && (
+        <div className="md:px-4  py-4 max-h-16 flex md:hidden items-center w-full justify-center gap-2">
           <div className="flex items-center bg-white w-full border border-gray-300 rounded-lg py-2 px-4  transition-all duration-300">
             {/* Icon disappears and frees space */}
             {!isFocused && (

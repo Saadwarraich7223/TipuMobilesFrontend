@@ -6,7 +6,7 @@ import BottomNavLayout from "../layouts/BottomNavLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import ProtectedRoute from "../components/common/ProtectedRoute/ProtectedRoute";
 
-/* 🔥 Lazy Pages */
+/*  Lazy Pages */
 const HomePage = lazy(() => import("../pages/home/HomePage"));
 const ProductDetailsPage = lazy(() =>
   import("../pages/product/ProductDetailsPage")

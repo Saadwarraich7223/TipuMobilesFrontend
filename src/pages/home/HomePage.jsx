@@ -1,7 +1,7 @@
-import { useEffect, useState, lazy } from "react";
+import { useEffect, useState, lazy, useMemo } from "react";
 import MainBanner from "../../components/common/Banners/MainBanner";
 import LazySection from "../../components/common/Lazysection/LazySection";
-import flashSalesApi from "../../api/flashSales";
+import { useFlashSales } from "../../queries/flashSales";
 
 const CategorySlider = lazy(() =>
   import("../../components/common/CategorySlider/CategorySlider")
@@ -20,35 +20,22 @@ const FlashSale = lazy(() =>
 );
 
 const HomePage = () => {
-  const [activeSale, setActiveSale] = useState(null);
+  const { data: flashSales = [], isLoading } = useFlashSales();
+
   const [loadFlashSale, setLoadFlashSale] = useState(false);
 
   useEffect(() => {
-    requestIdleCallback(() => {
-      setLoadFlashSale(true);
-    });
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(() => setLoadFlashSale(true));
+    } else {
+      setTimeout(() => setLoadFlashSale(true), 500);
+    }
   }, []);
 
-  useEffect(() => {
-    if (!loadFlashSale) return;
-
-    const fetchFlashSale = async () => {
-      try {
-        const res = await flashSalesApi.getFlashSales();
-        const now = Date.now();
-
-        const active = res.find(
-          (sale) => new Date(sale.endTime).getTime() > now
-        );
-
-        setActiveSale(active || null);
-      } catch (err) {
-        console.error("Flash sale fetch failed:", err);
-      }
-    };
-
-    fetchFlashSale();
-  }, [loadFlashSale]);
+  const activeSale = useMemo(() => {
+    const now = Date.now();
+    return flashSales.find((sale) => new Date(sale.endTime).getTime() > now);
+  }, [flashSales]);
 
   return (
     <>
@@ -56,7 +43,7 @@ const HomePage = () => {
 
       {loadFlashSale && activeSale && (
         <LazySection minHeight={420}>
-          <FlashSale sale={activeSale} />
+          <FlashSale sale={activeSale} loading={isLoading} />
         </LazySection>
       )}
 

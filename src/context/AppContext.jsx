@@ -1,62 +1,33 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import categoriesApi from "../api/categories";
 
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const navigate = useNavigate();
 
+  /* ================= UI State Only ================= */
   const [showProductView, setShowProductView] = useState(false);
   const [showCartSidebar, setShowCartSidebar] = useState(false);
   const [showMobileFilterBox, setShowMobileFilterBox] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchProductsByCat = async (slug, filters = {}) => {
-    try {
-      setLoading(true);
-      const res = await categoriesApi.getProductsByCategory(slug, filters);
-      return res.products;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      const res = await categoriesApi.getCategoriesTree();
-      console.log(res);
-      setCategories(res.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
   const value = {
+    navigate,
+
     showProductView,
     setShowProductView,
+
     showCartSidebar,
     setShowCartSidebar,
+
     showMobileFilterBox,
     setShowMobileFilterBox,
 
-    categories,
-    loading,
-    navigate,
-    fetchProductsByCat,
-    setIsSideBarOpen,
     isSideBarOpen,
+    setIsSideBarOpen,
+
     searchQuery,
     setSearchQuery,
   };
@@ -64,6 +35,4 @@ export const AppContextProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);

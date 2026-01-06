@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAppContext } from "../../../context/AppContext";
 import { useParams } from "react-router-dom";
 import { X, ChevronDown } from "lucide-react";
+import { useCategories } from "../../../queries/categories";
 
 const CategoryItem = ({ category, level = 0 }) => {
   const { navigate, setIsSideBarOpen } = useAppContext();
@@ -64,7 +65,9 @@ const CategoryItem = ({ category, level = 0 }) => {
 };
 
 const CetgorySideBar = () => {
-  const { categories, setIsSideBarOpen } = useAppContext();
+  const { setIsSideBarOpen } = useAppContext();
+  const { data: categories = [], isLoading } = useCategories();
+
   return (
     <div className="w-full  h-full bg-white shadow-lg p-4 flex flex-col">
       {/* Header */}

@@ -1,39 +1,30 @@
 import { useEffect, useState } from "react";
 import ProductSkeleton from "../../layout/ShimmerSkeltons/ProductSkelton";
 import ProductsList from "../../product/ProductList/ProductsList";
-import categoriesApi from "../../../api/categories";
-import { useAppContext } from "../../../context/AppContext";
 
 import { FileX } from "lucide-react";
+import { useCategories } from "../../../queries/categories";
+import { useCategoryProducts } from "../../../queries/products";
 
 const PopularProducts = () => {
-  const { categories, loading } = useAppContext();
-  const [products, setProducts] = useState([]);
-  const [ploading, setpLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState(categories[0]);
-  const fetchProductsByCat = async () => {
-    try {
-      setpLoading(true);
-      const res = await categoriesApi.getProductsByCategory(activeTab.slug);
-      setProducts(res.products);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setpLoading(false);
-    }
-  };
+  const { data: categories = [], isLoading: categoriesLoading } =
+    useCategories();
 
+  const [activeTab, setActiveTab] = useState(null);
+
+  /* Set default category once */
   useEffect(() => {
     if (!activeTab && categories.length > 0) {
       setActiveTab(categories[0]);
-      return;
     }
+  }, [categories, activeTab]);
 
-    if (!activeTab) return;
-
-    fetchProductsByCat();
-  }, [activeTab, categories]);
-
+  /* ================= Products ================= */
+  const { data: products = [], isLoading: productsLoading } =
+    useCategoryProducts(activeTab?.slug, {
+      enabled: !!activeTab,
+    });
+  const loading = categoriesLoading || productsLoading;
   return (
     <section className="bg-white py-4 border-t border-gray-100 min-h-[440px]">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -49,7 +40,7 @@ const PopularProducts = () => {
           {/* Right - Custom Tabs */}
           <div className=" w-full lg:w-[60%] items-start self-start justify-start r ">
             <div className="flex overflow-x-auto scrollbar-hide gap-3 md:gap-4  ">
-              {loading && (
+              {categoriesLoading && (
                 <>
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
@@ -60,7 +51,7 @@ const PopularProducts = () => {
                 </>
               )}
 
-              {!loading &&
+              {!categoriesLoading &&
                 categories?.map((cat) => (
                   <button
                     key={cat._id}
@@ -79,7 +70,7 @@ const PopularProducts = () => {
         </div>
 
         {/* Product Slider */}
-        {ploading || loading ? (
+        {loading ? (
           <section className="  bg-white">
             <div className="max-w-7xl mx-auto ">
               {/* Scrollable Product Row */}

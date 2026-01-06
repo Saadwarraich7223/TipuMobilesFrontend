@@ -1,31 +1,9 @@
-import { useEffect, useState } from "react";
-
-import productsApi from "../../../api/productsApi";
 import ProductSkeleton from "../../layout/ShimmerSkeltons/ProductSkelton";
 import ProductsList from "../../product/ProductList/ProductsList";
+import { useTopRatedProducts } from "../../../queries/products";
 
 const TopRatedProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchTopRated = async () => {
-      try {
-        setLoading(true);
-        const res = await productsApi.getProducts({
-          sort: "-averageRating",
-          limit: 5,
-        });
-        setProducts(res.data.products);
-      } catch (err) {
-        console.error("Failed to fetch top rated products", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTopRated();
-  }, []);
+  const { data: products = [], isLoading } = useTopRatedProducts();
 
   return (
     <section className="py-6 border-t border-gray-100">
@@ -34,7 +12,7 @@ const TopRatedProducts = () => {
           Top Rated Products ⭐
         </h2>
 
-        {loading ? (
+        {isLoading ? (
           <section className=" ">
             <div className="max-w-7xl mx-auto ">
               {/* Scrollable Product Row */}

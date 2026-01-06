@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
-import { formatDistanceToNow } from "date-fns";
-import reviewApi from "../../../api/reviewApi";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import ReviewSkeleton from "../../layout/ShimmerSkeltons/ReviewSkelton";
-import { toast } from "react-hot-toast";
+import { formatDistanceToNow } from "date-fns";
+import { Star, User, UserRound } from "lucide-react";
+import toast from "react-hot-toast";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Star } from "lucide-react";
 
+import ReviewSkeleton from "../../layout/ShimmerSkeltons/ReviewSkelton";
+import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
+import { useProductReviews, useSubmitReview } from "../../../queries/reviews";
+
+/* ===================== Rating Stars ===================== */
 const RatingStars = ({ rating = 0 }) => (
   <div className="flex items-center gap-[2px]">
     {[...Array(5)].map((_, i) =>
       i < rating ? (
-        <Star fill="yellow" key={i} size={16} className="text-yellow-500" />
+        <Star key={i} size={16} fill="yellow" className="text-yellow-500" />
       ) : (
         <Star key={i} size={16} className="text-gray-300" />
       )
@@ -19,71 +22,41 @@ const RatingStars = ({ rating = 0 }) => (
   </div>
 );
 
+/* ===================== Reviews Section ===================== */
 const ReviewsSection = () => {
   const { id } = useParams();
-  const [reviews, setReviews] = useState([]);
+
+  const { data: reviews = [], isLoading } = useProductReviews(id);
+
+  const submitReview = useSubmitReview(id);
+
   const [openReplies, setOpenReplies] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [reviewSubmitLoading, setReviewSubmitLoading] = useState(false);
   const [reviewForm, setReviewForm] = useState({
     title: "",
     comment: "",
     rating: 0,
   });
 
+  /* ------------------ Submit Review ------------------ */
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (!reviewForm.title && !reviewForm.comment && !reviewForm.rating) {
-        return toast.error("All fields are required.");
-      }
-      if (!reviewForm.title) {
-        return toast.error("Review title is required.");
-      }
-      if (!reviewForm.comment) {
-        return toast.error("Review comment is required.");
-      }
-      if (!reviewForm.rating) {
-        return toast.error("Review rating is required.");
-      }
-      setReviewSubmitLoading(true);
-      const res = await reviewApi.createReview(id, reviewForm);
-      toast.success(res.message);
-      if (res.success) fetchProductReviews();
 
+    if (!reviewForm.title || !reviewForm.comment || !reviewForm.rating) {
+      return toast.error("All fields are required.");
+    }
+
+    try {
+      await submitReview.mutateAsync(reviewForm);
+      toast.success("Review submitted successfully");
       setReviewForm({ title: "", comment: "", rating: 0 });
-    } catch (error) {
-      if (error.response) {
-        // Backend responded with error
-        if (error.response.status === 401) {
-          toast.error("You must be logged in to add a review.");
-          // Optionally redirect to login
-          // navigate("/login");
-        } else {
-          toast.error(error.response.data.message || "Something went wrong");
-        }
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        toast.error("You must be logged in to add a review.");
       } else {
-        toast.error("Network error. Please try again.");
+        toast.error("Something went wrong");
       }
-    } finally {
-      setReviewSubmitLoading(false);
     }
   };
-  const fetchProductReviews = async () => {
-    try {
-      setLoading(true);
-      const res = await reviewApi.getProductReviews(id);
-
-      setReviews(res.reviews);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchProductReviews();
-  }, [id]);
 
   const toggleReplyBox = (index) => {
     setOpenReplies((prev) => ({
@@ -92,31 +65,11 @@ const ReviewsSection = () => {
     }));
   };
 
-  const handleReplySubmit = (reviewId, replyText, index) => {
-    if (!replyText) return;
-    setReviews((prev) =>
-      prev.map((r) =>
-        r.id === reviewId
-          ? {
-              ...r,
-              adminReply: {
-                reply: replyText,
-                repliedAt: new Date().toISOString(),
-                repliedBy: { name: "Admin" },
-              },
-            }
-          : r
-      )
-    );
-    toggleReplyBox(index);
-  };
-
-  if (loading)
+  /* ------------------ Loading ------------------ */
+  if (isLoading) {
     return (
       <div className="py-4">
-        <h2 className="text-md md:text-xl font-bold md:mb-4 mb-2">
-          Customer Reviews
-        </h2>
+        <h2 className="text-md md:text-xl font-bold mb-2">Customer Reviews</h2>
 
         <div className="space-y-3 md:space-y-5">
           {[...Array(3)].map((_, i) => (
@@ -125,17 +78,17 @@ const ReviewsSection = () => {
         </div>
       </div>
     );
+  }
+
   return (
     <div className="py-4">
-      <h2 className="text-md md:text-xl font-bold md:mb-4 mb-2">
-        Customer Reviews
-      </h2>
+      <h2 className="text-md md:text-xl font-bold mb-2">Customer Reviews</h2>
 
-      {/* Reviews List */}
-      {reviews?.length === 0 ? (
+      {/* ------------------ Reviews List ------------------ */}
+      {reviews.length === 0 ? (
         <p>No reviews yet. Be the first to review!</p>
       ) : (
-        <div className="space-y-2 md:space-y-5 max-h-[400px] overflow-y-auto pr-1 sm:pr-3">
+        <div className="space-y-2 md:space-y-5 max-h-[400px] overflow-y-auto pr-2">
           {reviews.map((review, i) => (
             <ReviewCard
               key={review._id}
@@ -143,19 +96,16 @@ const ReviewsSection = () => {
               index={i}
               openReplies={openReplies}
               toggleReplyBox={toggleReplyBox}
-              onReplySubmit={handleReplySubmit}
             />
           ))}
         </div>
       )}
 
-      {/* Review Form */}
+      {/* ------------------ Review Form ------------------ */}
       <div className="mt-8">
-        <h3 className=" text-md md:text-lg font-bold mb-2">Leave a Review</h3>
-        <form
-          onSubmit={handleReviewSubmit}
-          className="space-y-2  md:space-y-4 max-w-xl"
-        >
+        <h3 className="text-md md:text-lg font-bold mb-2">Leave a Review</h3>
+
+        <form onSubmit={handleReviewSubmit} className="space-y-3 max-w-xl">
           <input
             type="text"
             placeholder="Title"
@@ -163,8 +113,9 @@ const ReviewsSection = () => {
             onChange={(e) =>
               setReviewForm({ ...reviewForm, title: e.target.value })
             }
-            className="w-full text-xs md:text-base border border-gray-300 p-2 rounded-md"
+            className="w-full border border-gray-200 p-2 rounded-md text-sm"
           />
+
           <textarea
             rows="4"
             placeholder="Comment"
@@ -172,8 +123,9 @@ const ReviewsSection = () => {
             onChange={(e) =>
               setReviewForm({ ...reviewForm, comment: e.target.value })
             }
-            className="w-full text-xs md:text-base border border-gray-300 p-2 rounded-md resize-none"
+            className="w-full border p-2 border-gray-200  rounded-md resize-none text-sm"
           />
+
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -189,12 +141,13 @@ const ReviewsSection = () => {
               </button>
             ))}
           </div>
+
           <button
             type="submit"
-            className="bg-primary text-xs min-w-30 md:text-base cursor-pointer text-white px-4 py-2 rounded-md"
+            className="bg-primary text-white px-4 py-2 rounded-md"
           >
-            {reviewSubmitLoading ? (
-              <ClipLoader size={14} color="#ffffff" />
+            {submitReview.isLoading ? (
+              <ClipLoader size={14} color="#fff" />
             ) : (
               "Submit Review"
             )}
@@ -205,109 +158,88 @@ const ReviewsSection = () => {
   );
 };
 
-export default ReviewsSection;
-
-const ReviewCard = ({
-  review,
-  index,
-  openReplies,
-  toggleReplyBox,
-  onReplySubmit,
-}) => {
+/* ===================== Review Card ===================== */
+const ReviewCard = ({ review, index, openReplies, toggleReplyBox }) => {
   const [replyText, setReplyText] = useState("");
   const [helpfulClicked, setHelpfulClicked] = useState(false);
   const [helpfulCount, setHelpfulCount] = useState(review.helpfulCount || 0);
-  const RelativeTime = () => {
-    return (
-      <span className="text-gray-500 text-xs md:text-sm">
-        {formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })}
-      </span>
-    );
-  };
-  const handleReply = (e) => {
-    e.preventDefault();
-    onReplySubmit(review.id, replyText, index);
-    setReplyText("");
-  };
-
-  const handleHelpfulClick = () => {
-    if (!helpfulClicked) {
-      setHelpfulCount(helpfulCount + 1);
-      setHelpfulClicked(true);
-    }
-  };
 
   return (
-    <div className="bg-white p-2 md:p-4 border border-gray-300 rounded-md shadow-sm">
-      <div className="flex mb-1 items-center gap-3">
-        <img
-          src={review?.userInfo?.avatar.url || "https://i.pravatar.cc/70"}
-          alt="Avatar"
-          className="w-10 h-10 object-cover rounded-full"
-        />
+    <div className="bg-white p-3 md:p-4 border border-gray-200 rounded-md shadow-sm">
+      <div className="flex items-center gap-3 mb-1">
+        {review?.userInfo?.avatar?.url ? (
+          <img
+            src={cld(
+              review?.userInfo?.avatar?.url,
+              "f_auto,q_auto,w_80,h_80,c_fill"
+            )}
+            loading="lazy"
+            decoding="async"
+            width="40"
+            height="40"
+            className="w-10 h-10 rounded-full object-cover"
+            alt="Avatar"
+          />
+        ) : (
+          <div className="w-10 h-10 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center">
+            <UserRound size={28} className=" text-gray-700 " />
+          </div>
+        )}
+
         <div>
-          <h4 className="font-semibold text-sm md:text-base ">
-            {review.userInfo.name}
+          <h4 className="font-semibold text-sm">
+            {review.userInfo?.name || "User"}
           </h4>
-          <span className="text-gray-500 text-xs md:text-sm">
-            {RelativeTime()}
-            {review.edited && " (Edited)"}
+          <span className="text-gray-500 text-xs">
+            {formatDistanceToNow(new Date(review.createdAt), {
+              addSuffix: true,
+            })}
           </span>
         </div>
       </div>
 
       <RatingStars rating={review.rating} />
-      <h5 className="font-medium text-sm md:text-base mt-2">{review.title}</h5>
-      <p className="text-gray-700 text-xs md:text-sm">{review.comment}</p>
 
-      {review.adminReply && (
-        <div className="mt-3 pl-4 border-l-2 border-gray-200 text-gray-700">
-          <p className="text-xs md:text-sm">
-            <span className="font-semibold text-sm md:text-base text-primary">
-              {review.adminReply.repliedBy.name}:
-            </span>{" "}
-            {review.adminReply.reply}
-          </p>
-          <span className="text-xs text-gray-400">
-            {new Date(review.adminReply.repliedAt).toLocaleDateString()}
-          </span>
-        </div>
-      )}
+      <h5 className="font-medium mt-2 text-sm">{review.title}</h5>
+      <p className="text-gray-700 text-sm">{review.comment}</p>
 
-      {/* Helpful votes */}
       <div className="mt-2 flex items-center gap-3">
         <button
-          onClick={handleHelpfulClick}
-          className={` text-xs md:text-sm font-semibold ${
+          onClick={() => {
+            if (!helpfulClicked) {
+              setHelpfulCount((c) => c + 1);
+              setHelpfulClicked(true);
+            }
+          }}
+          disabled={helpfulClicked}
+          className={`text-xs font-semibold ${
             helpfulClicked ? "text-gray-400" : "text-primary hover:underline"
           }`}
-          disabled={helpfulClicked}
         >
-          👍 Was this review helpful?
+          👍 Was this helpful?
         </button>
-        <span className="md:text-sm text-xs text-gray-500">
-          ({helpfulCount})
-        </span>
+
+        <span className="text-xs text-gray-500">({helpfulCount})</span>
       </div>
 
       <button
         onClick={() => toggleReplyBox(index)}
-        className="mt-2 text-primary text-xs cursor-pointer md:text-sm font-semibold hover:underline"
+        className="mt-2 text-primary text-xs font-semibold hover:underline"
       >
         {openReplies[index] ? "Hide Reply" : "Reply"}
       </button>
 
       {openReplies[index] && (
-        <form onSubmit={handleReply} className="mt-2 pl-3">
+        <form className="mt-2">
           <textarea
             rows="2"
-            placeholder="Write a reply..."
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
-            className="w-full border p-2 rounded-md resize-none"
+            placeholder="Write a reply..."
+            className="w-full border p-2 rounded-md resize-none text-sm"
           />
           <button
-            type="submit"
+            type="button"
             className="mt-1 bg-primary text-white px-3 py-1 rounded-md text-sm"
           >
             Submit Reply
@@ -317,3 +249,5 @@ const ReviewCard = ({
     </div>
   );
 };
+
+export default ReviewsSection;

@@ -3,7 +3,6 @@ import CartSidebar from "../components/layout/CartSidebar/CartSidebar";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/common/Footer/Footer";
 import TopStrip from "../components/layout/TopStrip/TopStrip";
-
 import MobileBottomNav from "../components/layout/MobileBottomNav/MobileBottomNav";
 import Navbar from "../components/layout/Navbar/Navbar";
 

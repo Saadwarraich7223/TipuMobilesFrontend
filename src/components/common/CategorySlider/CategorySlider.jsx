@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { useAppContext } from "../../../context/AppContext";
+import { useCategories } from "../../../queries/categories";
+import CategoryCardSkeleton from "../../layout/ShimmerSkeltons/CategoryCardSkeleton";
 
 const CategorySlider = () => {
-  const { categories } = useAppContext();
+  const { data: categories = [], isLoading } = useCategories();
 
   return (
     <section className="px-4 md:px-10 py-2 select-none">
@@ -11,14 +12,18 @@ const CategorySlider = () => {
           className="flex pt-2 gap-4 md:gap-6 overflow-x-auto scrollbar-hide pb-3"
           style={{ scrollSnapType: "x mandatory" }}
         >
-          {categories?.map((item, index) => (
-            <Link
-              to={`/products/${item.slug}`}
-              key={index}
-              className="flex-shrink-0 scroll-snap-align-start"
-            >
-              <div
-                className="
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <CategoryCardSkeleton key={index} />
+              ))
+            : categories?.map((item, index) => (
+                <Link
+                  to={`/products/${item.slug}`}
+                  key={index}
+                  className="flex-shrink-0 scroll-snap-align-start"
+                >
+                  <div
+                    className="
                   group
                   bg-white
                   border border-gray-200
@@ -33,9 +38,9 @@ const CategorySlider = () => {
                   hover:shadow-lg
                   hover:-translate-y-1
                 "
-              >
-                <div
-                  className="
+                  >
+                    <div
+                      className="
                     w-12 h-12 md:w-14 md:h-14
                     rounded-full
                     bg-gray-50
@@ -43,18 +48,18 @@ const CategorySlider = () => {
                     transition-transform duration-300
                     group-hover:scale-105
                   "
-                >
-                  <img
-                    src={`https://res.cloudinary.com/dti1kpfhi/image/upload/f_auto,q_auto,w_112,h_112,c_fill/${item.image.public_id}`}
-                    alt={item.name}
-                    className="w-12 h-12 md:w-14 md:h-14 object-contain rounded-full"
-                    width="48" // Explicit width for smaller screens (12 * 4px = 48px)
-                    height="48" // Explicit height for smaller screens (12 * 4px = 48px)
-                  />
-                </div>
+                    >
+                      <img
+                        src={`https://res.cloudinary.com/dti1kpfhi/image/upload/f_auto,q_auto,w_112,h_112,c_fill/${item.image.public_id}`}
+                        alt={item.name}
+                        className="w-12 h-12 md:w-14 md:h-14 object-contain rounded-full"
+                        width="48" // Explicit width for smaller screens (12 * 4px = 48px)
+                        height="48" // Explicit height for smaller screens (12 * 4px = 48px)
+                      />
+                    </div>
 
-                <h3
-                  className="
+                    <h3
+                      className="
                     text-xs md:text-sm
                     font-medium
                     text-gray-700
@@ -63,12 +68,12 @@ const CategorySlider = () => {
                     group-hover:text-primary
                     transition-colors
                   "
-                >
-                  {item.name}
-                </h3>
-              </div>
-            </Link>
-          ))}
+                    >
+                      {item.name}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
         </div>
       </div>
     </section>
