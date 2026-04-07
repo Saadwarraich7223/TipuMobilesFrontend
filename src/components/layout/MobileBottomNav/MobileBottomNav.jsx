@@ -1,14 +1,10 @@
-import { useEffect, useState, Fragment } from "react";
-
-import { Home, ShoppingCart, LogIn, Compass } from "lucide-react";
-
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../../context/AuthContext";
-import { cld } from "../../../utlis/CloudinaryImageSizeReducer/cloudinary";
+import { Home, Store, ShoppingBag, User } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function MobileBottomNav() {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
   const [activePath, setActivePath] = useState("/");
   const location = useLocation();
 
@@ -18,100 +14,78 @@ export default function MobileBottomNav() {
 
   const navItems = [
     { label: "Home", icon: Home, path: "/" },
-    { label: "Explore", icon: Compass, path: "/products" },
-    { label: "Cart", icon: ShoppingCart, path: "/cart" },
+    { label: "Store", icon: Store, path: "/products" },
+    { label: "Cart", icon: ShoppingBag, path: "/cart" },
     {
-      label: "Account",
-      icon: user ? null : LogIn, // Show login icon if no user
+      label: "Profile",
+      icon: User,
       path: "/profile",
     },
   ];
 
   return (
-    <>
-      {/* Bottom nav */}
-      <div
-        style={{
-          paddingBottom: "env(safe-area-inset-bottom)",
-          height: "80px",
-        }}
-        className="w-full sm:hidden select-none fixed bottom-0  right-0 left-0 pb-safe z-20 flex items-end justify-center"
-      >
-        <nav className="w-full  rounded-sm backdrop-blur-xl border px-1 py-2 pb-0 border-gray-200 shadow-xl">
-          <ul className="relative  overflow-hidden flex justify-around bg-white shadow px-1  mb-2 py-4 rounded-xl   w-full items-center ">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active =
-                item.path === "/profile"
-                  ? item.path === "/profile"
-                    ? ["/profile", "/login", "/register"].some((path) =>
-                        activePath.startsWith(path)
-                      )
-                    : activePath === item.path
-                  : activePath === item.path;
+    <div className="sm:hidden fixed bottom-5 left-1 right-1 z-[60] pb-safe pointer-events-none flex justify-center">
+      <nav className="pointer-events-auto bg-white/80 backdrop-blur-2xl shadow-[0_20px_60px_rgba(36,32,24,0.18)] rounded-[1.25rem] border border-[#ddd4c8]/60 h-[68px] flex flex-row items-center justify-between w-full max-w-[420px] px-2 py-2">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive =
+            item.path === "/profile"
+              ? ["/profile", "/login", "/register", "/admin"].some((path) =>
+                  activePath.startsWith(path),
+                )
+              : activePath === item.path;
 
-              return (
-                <Fragment key={item.path}>
-                  <button
-                    className="flex cursor-pointer  flex-col items-center group relative"
-                    onClick={() => navigate(item.path)}
-                  >
-                    {active && (
-                      <span className="absolute  -top-6   h-20 w-12 bg-gradient-to-b from-primary/20 to-transparent  " />
-                    )}
-                    {active && (
-                      <span className="absolute -top-[15px] h-[4px] w-12 rounded-full bg-primary" />
-                    )}
-                    <div
-                      className={`relative transition-all duration-300 ${
-                        active ? "scale-110" : "group-hover:scale-105"
-                      }`}
-                    >
-                      {item.label === "Account" && user ? (
-                        <div className="w-[24px] h-[24px]">
-                          <img
-                            src={cld(
-                              user.avatar.url,
-                              "f_auto,q_auto,w_96,h_96,c_fill"
-                            )}
-                            alt={user.name}
-                            width="24"
-                            height="24"
-                            className="w-full h-full rounded-full object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <Icon
-                          size={24}
-                          className={`transition-colors duration-300 ${
-                            active
-                              ? "text-primary"
-                              : "text-gray-500 group-hover:text-primary"
-                          }`}
-                        />
-                      )}
-                    </div>
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className="relative flex flex-col cursor-pointer items-center justify-center flex-1 h-full touch-manipulation group gap-1"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
+              <div className="relative flex items-center justify-center w-[58px] h-[34px]">
+                {isActive && (
+                  <motion.div
+                    layoutId="navIconBackground"
+                    className="absolute inset-0 bg-[#8a6b47] rounded-[1.25rem]"
+                    transition={{ type: "spring", stiffness: 500, damping: 32 }}
+                  />
+                )}
 
-                    <span
-                      className={`text-[9px] mt-1 font-medium transition-all duration-300 ${
-                        active
-                          ? "text-primary"
-                          : "text-gray-500 group-hover:text-gray-700"
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                  </button>
-                </Fragment>
-              );
-            })}
-          </ul>
+                <div className="relative flex items-center justify-center w-full h-full z-10">
+                  <Icon
+                    size={21}
+                    strokeWidth={isActive ? 2 : 1.6}
+                    className={`transition-colors duration-300 ${
+                      isActive
+                        ? "text-white"
+                        : "text-[#8a8a8a] group-hover:text-[#4f4a43]"
+                    }`}
+                  />
+                </div>
+              </div>
 
-          {/* <div className="flex justify-center pb-1">
-            <div className="w-24 h-1 bg-gray-300 rounded-full"></div>
-          </div> */}
-        </nav>
-      </div>
-    </>
+              <motion.span
+                animate={{
+                  color: isActive ? "#8a6b47" : "#8a8a8a",
+                  y: isActive ? -1 : 0,
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                className="text-[10px] font-semibold tracking-[0.12em]"
+              >
+                {item.label}
+              </motion.span>
+
+              {isActive && (
+                <motion.span
+                  layoutId="navDot"
+                  className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-[#8a6b47]"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </nav>
+    </div>
   );
 }
