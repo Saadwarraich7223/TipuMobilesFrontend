@@ -6,8 +6,6 @@ import { Star } from "lucide-react";
 const TopRatedProducts = () => {
   const { data: products = [], isLoading } = useTopRatedProducts();
 
-  console.log(products[0]);
-
   return (
     <section className="py-6 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
