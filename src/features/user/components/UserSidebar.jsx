@@ -51,7 +51,7 @@ export default function UserSidebar({ isOpen, onClose }) {
       )}
 
       <aside
-        className={`fixed top-0 left-0 h-full w-56 sm:w-60 md:w-72 surface-raised border-r border-[#ddd4c8]/60 shadow-[0_20px_60px_rgba(36,32,24,0.18)] z-40 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-56 sm:w-60 md:w-72 bg-white border-r border-[#ddd4c8]/60 shadow-[0_20px_60px_rgba(36,32,24,0.18)] z-40 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
       >

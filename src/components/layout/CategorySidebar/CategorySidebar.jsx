@@ -108,7 +108,7 @@ const CategorySidebar = () => {
   );
 
   return (
-    <div className="w-full h-full shadow-[0_30px_80px_rgba(23,23,23,0.18)] surface-raised flex flex-col relative overflow-hidden border-r border-[#ddd4c8]/20">
+    <div className="w-full h-full  bg-white  flex flex-col relative overflow-hidden border-r border-[#ddd4c8]/20">
       <div className="flex items-center justify-between p-4 border-b border-[#e6ded4] relative z-10 shrink-0">
         <div>
           <p className="text-[11px] uppercase tracking-[0.18em] text-[#8a6b47]/70 font-semibold">

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { MotionConfig } from "framer-motion";
 import AppRoutes from "./routes/AppRoutes";
 import ScrollToTop from "./components/ui/ScrollToTop";
 import { fetchProfile } from "./features/auth/store/authSlice";
@@ -28,11 +29,13 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="app-shell">
-      <ScrollToTop />
-      <Toaster position="top-center" reverseOrder={false} />
-      <AppRoutes />
-    </div>
+    <MotionConfig reducedMotion="always">
+      <div className="app-shell">
+        <ScrollToTop />
+        <Toaster position="top-center" reverseOrder={false} />
+        <AppRoutes />
+      </div>
+    </MotionConfig>
   );
 };
 

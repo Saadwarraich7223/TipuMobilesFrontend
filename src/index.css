@@ -365,3 +365,33 @@ body {
 .font-montserrat {
   font-family: "Montserrat", sans-serif;
 }
+
+/* Performance override: disable heavy effects and transitions */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Remove blur and filters */
+[class*="backdrop-blur"],
+[class*="blur-"],
+[class*="drop-shadow"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+
+/* Remove heavy shadows */
+[class*="shadow"] {
+  box-shadow: none !important;
+}
+
+.surface-raised,
+.glass,
+.glass-dark {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}

@@ -25,7 +25,7 @@ export default function MobileBottomNav() {
 
   return (
     <div className="sm:hidden fixed bottom-5 left-1 right-1 z-[60] pb-safe pointer-events-none flex justify-center">
-      <nav className="pointer-events-auto bg-white/80 backdrop-blur-2xl shadow-[0_20px_60px_rgba(36,32,24,0.18)] rounded-[1.25rem] border border-[#ddd4c8]/60 h-[68px] flex flex-row items-center justify-between w-full max-w-[420px] px-2 py-2">
+      <nav className="pointer-events-auto bg-white backdrop-blur-2xl shadow-[0_20px_60px_rgba(36,32,24,0.18)] rounded-[1.25rem] border border-[#ddd4c8]/60 h-[68px] flex flex-row items-center justify-between w-full max-w-[420px] px-2 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive =
