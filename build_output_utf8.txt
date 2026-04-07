@@ -1,0 +1,54 @@
+﻿
+> fullstack_ecommerce@0.0.0 build
+> vite build
+
+[36mvite v6.3.5 [32mbuilding for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 117 modules transformed.
+node.exe : [31mΓ£ù[39m 
+Build failed in 1.29s
+At C:\Program 
+Files\nodejs\npm.ps1:29 
+char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (  
+  [31mΓ£ù[39m Build fa   
+ iled in 1.29s:String)    
+ [], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+[31merror during build:
+[31mCould not resolve "..
+/../features/home/componen
+ts/Hero" from "src/feature
+s/home/pages/HomePage.jsx"
+[31m
+file: [36mE:/E-commerce-A
+pp/frontend/src/features/h
+ome/pages/HomePage.jsx[31
+m
+    at getRollupError (fil
+e:///E:/E-commerce-App/fro
+ntend/node_modules/rollup/
+dist/es/shared/parseAst.js
+:400:41)
+    at error (file:///E:/E
+-commerce-App/frontend/nod
+e_modules/rollup/dist/es/s
+hared/parseAst.js:396:42)
+    at ModuleLoader.handle
+InvalidResolvedId (file://
+/E:/E-commerce-App/fronten
+d/node_modules/rollup/dist
+/es/shared/node-entry.js:2
+1389:24)
+    at file:///E:/E-commer
+ce-App/frontend/node_modul
+es/rollup/dist/es/shared/n
+ode-entry.js:21349:26[39m
